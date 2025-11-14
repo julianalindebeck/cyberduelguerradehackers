@@ -3,7 +3,7 @@ package cartas;
 import java.util.Optional;
 
 public class Suporte extends Carta {
-    public Suporte(String nome, String tipo, int poder, int custo, String efeito, String descricao){
+    public Suporte(String nome, String tipo, double poder, double custo, String efeito, String descricao){
         this.nome = nome;
         this.tipo = tipo;
         this.poder = poder;

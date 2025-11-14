@@ -1,7 +1,7 @@
 package cartas;
 
 public class Defesa extends Carta {
-    public Defesa(String nome, String tipo, int poder, int custo, String descricao){
+    public Defesa(String nome, String tipo, double poder, double custo, String descricao){
         this.nome = nome;
         this.tipo = tipo;
         this.poder = poder;

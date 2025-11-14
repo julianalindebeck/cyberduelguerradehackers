@@ -5,8 +5,8 @@ import java.util.Optional;
 public abstract class Carta { //classe abstrata: não pode ser instanciada, apenas serve de modelo para outras
     protected String nome;
     protected String tipo;
-    protected int poder;
-    protected int custo;
+    protected double poder;
+    protected double custo;
     protected Optional<String> efeito;
     protected String descricao;
 
@@ -14,7 +14,7 @@ public abstract class Carta { //classe abstrata: não pode ser instanciada, apen
         return nome;
     }
     
-    public int getCusto(){
+    public double getCusto(){
         return custo;
     }
 }

@@ -33,11 +33,11 @@ public class Leitor {
     public static List<Ataque> listaDeAtaques(){
         List<Ataque> lista = new ArrayList<>();
 
-        for (String[] c : lerCSV("data/ataque.csv")){
+        for (String[] c : lerCSV("arquivos/ataque.csv")){
             String nome = c[0];
             String tipo = c[1];
-            int poder = Integer.parseInt(c[2]);
-            int custo = Integer.parseInt(c[3]);
+            double poder = Double.parseDouble(c[2]);
+            double custo = Double.parseDouble(c[3]);
             String descricao = c[4];
 
             lista.add(new Ataque(nome, tipo, poder, custo, descricao));
@@ -49,11 +49,11 @@ public class Leitor {
     public static List<Defesa> listaDeDefesas(){
         List<Defesa> lista = new ArrayList<>();
 
-        for (String[] c : lerCSV("data/defesa.csv")){
+        for (String[] c : lerCSV("arquivos/defesa.csv")){
             String nome = c[0];
             String tipo = c[1];
-            int poder = Integer.parseInt(c[2]);
-            int custo = Integer.parseInt(c[3]);
+            double poder = Double.parseDouble(c[2]);
+            double custo = Double.parseDouble(c[3]);
             String descricao = c[4];
 
             lista.add(new Defesa(nome, tipo, poder, custo, descricao));
@@ -65,11 +65,11 @@ public class Leitor {
     public static List<Suporte> listaDeSuportes(){
         List<Suporte> lista = new ArrayList<>();
 
-        for (String[] c : lerCSV("data/suporte.csv")){
+        for (String[] c : lerCSV("arquivos/suporte.csv")){
             String nome = c[0];
             String tipo = c[1];
-            int poder = Integer.parseInt(c[2]);
-            int custo = Integer.parseInt(c[3]);
+            double poder = Double.parseDouble(c[2]);
+            double custo = Double.parseDouble(c[3]);
             String efeito = c[4];
             String descricao = c[5];
 
