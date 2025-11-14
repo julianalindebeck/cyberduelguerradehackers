@@ -1,4 +1,4 @@
-Nome,Tipo,Poder,Custo,Descrição
+nome,tipo,poder,custo,descricao
 Criptografia Quântica,DEFESA,50,5,Protege dados com criptografia resistente a ataques futuros
 Escudo Quântico,DEFESA,50,5,Barreira quântica que anula ataques de alto impacto
 IA de Defesa Adaptativa,DEFESA,50,5,Algoritmo que aprende e bloqueia padrões avançados de ataque

@@ -1,4 +1,4 @@
-Nome,Tipo,Poder,Custo,Descrição
+nome,tipo,poder,custo,descricao
 Exploit Zero-Day,ATAQUE,50,5,Exploração de vulnerabilidade de dia zero
 Ransomware Avançado,ATAQUE,50,5,Criptografa dados críticos do oponente
 Rootkit Oculto,ATAQUE,50,5,Instala backdoor profundo no sistema inimigo

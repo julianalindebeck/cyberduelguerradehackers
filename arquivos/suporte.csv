@@ -1,4 +1,4 @@
-Nome,Tipo,Poder,Custo,Efeito,Descrição
+nome,tipo,poder,custo,efeito,descricao
 Atualização de Firmware,SUPORTE,0.2,2,AUMENTA_ATAQUE,Melhora o desempenho ofensivo em 20%.
 Overclock de CPU,SUPORTE,0.2,2,AUMENTA_ATAQUE,Aumenta a potência dos ataques em 20%.
 Refatoração de Código,SUPORTE,0.1,1,AUMENTA_ATAQUE,Melhora a eficiência do ataque em 10%.
