@@ -6,3 +6,4 @@ public class Hacker extends Jogador {
         this.id = id;
     }
 }
+

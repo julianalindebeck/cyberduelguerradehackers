@@ -1,8 +1,6 @@
 package jogadores;
 
 public class Bot extends Jogador {
-    public Bot(String nome, int id){
-        this.nome = nome;
-        this.id = id;
-    }
+    public static final String nome = "Bot";
+    public static final int id = 202565001;
 }
