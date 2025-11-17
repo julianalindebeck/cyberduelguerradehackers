@@ -13,6 +13,8 @@ import cartas.Suporte;
 public abstract class Jogador {
     protected String nome;
     protected int id;
+    protected double vida = 100;
+    protected double energia = 10;
 
     public String getNome(){
         return nome;
