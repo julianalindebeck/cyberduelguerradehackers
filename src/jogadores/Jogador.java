@@ -46,7 +46,7 @@ public abstract class Jogador {
         System.out.println("Selecione as cartas de ataque: ");
 
         for(int i = 0; i < ataques.size(); i++){
-            System.out.println((i + 1) + " -> " + ataques.get(i).getNome());
+            System.out.println((i + 1) + " -> " + ataques.get(i).getNome() + " - Poder: " + ataques.get(i).getPoder());
         }
 
         for(int i = 0; i < 4; i++){
@@ -58,7 +58,7 @@ public abstract class Jogador {
         System.out.println("Selecione as cartas de defesa: ");
 
         for(int i = 0; i < defesas.size(); i++){
-            System.out.println((i + 1) + " -> " + defesas.get(i).getNome());
+            System.out.println((i + 1) + " -> " + defesas.get(i).getNome() + " - Poder: " + defesas.get(i).getPoder());
         }
 
         for(int i = 0; i < 4; i++){
@@ -70,7 +70,7 @@ public abstract class Jogador {
         System.out.println("Selecione as cartas de suporte: ");
 
         for(int i = 0; i < suportes.size(); i++){
-            System.out.println((i + 1) + " -> " + suportes.get(i).getNome());
+            System.out.println((i + 1) + " -> " + suportes.get(i).getNome() + " - Poder: " + suportes.get(i).getPoder());
         }
 
         for(int i = 0; i < 2; i++){

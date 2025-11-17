@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import cartas.Ataque;
+import cartas.Carta;
 import cartas.Defesa;
 import cartas.Suporte;
 import jogadores.Hacker;
@@ -20,12 +21,9 @@ public class App {
         System.out.println("2. Hacker vs Hacker");
         int modoDeJogo = leitura.nextInt(); //passa o valor lido para modoDeJogo
         leitura.nextLine();
-        System.out.println(modoDeJogo);
         
         System.out.println("Hacker 1 - Escolha seu nome: ");
-        String nome = leitura.next();
-        leitura.nextLine();
-
+        String nome = leitura.nextLine();
         System.out.println("Hacker 1 - Escolha seu ID: ");
         int id = leitura.nextInt();
         leitura.nextLine();
@@ -37,14 +35,22 @@ public class App {
         System.out.println("Hacker 1 - Faça sua escolha: ");
         System.out.println("1. Desejo cartas aleatórias");
         System.out.println("2. Desejo escolher minhas cartas");
-        int desejo = leitura.nextInt(); //passa o valor lido para modoDeJogo
+        int desejo = leitura.nextInt();
         leitura.nextLine();
 
+        List<Carta> maoHacker1;
+
         if(desejo == 1){
-            Jogador.selecionaCartas(leitura, ataques, defesas, suportes, true);
+            maoHacker1 = Jogador.selecionaCartas(leitura, ataques, defesas, suportes, true);
         }
         else {
-            Jogador.selecionaCartas(leitura, ataques, defesas, suportes, false);
+            maoHacker1 = Jogador.selecionaCartas(leitura, ataques, defesas, suportes, false);
+        }
+
+        System.out.println("Mão do Hacker 1: ");
+        for (int i = 0; i < maoHacker1.size(); i++) {
+            Carta carta = maoHacker1.get(i);
+            System.out.println((i+1) + ". " + carta.getNome() + " - Tipo: " + carta.getTipo() + " - Poder: " + carta.getPoder() + " - Custo: " + carta.getCusto());
         }
     }
 }

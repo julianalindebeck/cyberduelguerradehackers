@@ -13,8 +13,24 @@ public abstract class Carta { //classe abstrata: não pode ser instanciada, apen
     public String getNome(){
         return nome;
     }
+
+    public String getTipo(){
+        return tipo;
+    }
+
+    public double getPoder(){
+        return poder;
+    }
     
     public double getCusto(){
         return custo;
+    }
+
+    public String getEfeito(){
+        return nome;
+    }
+
+    public String getDescricao(){
+        return descricao;
     }
 }
