@@ -2,12 +2,10 @@ import java.util.List;
 import java.util.Scanner;
 
 import cartas.Ataque;
-import cartas.Carta;
 import cartas.Defesa;
 import cartas.Suporte;
 import jogadores.Bot;
 import jogadores.Hacker;
-import jogadores.Jogador;
 import leituraDeArquivos.Leitor;
 
 public class App {
@@ -32,8 +30,8 @@ public class App {
         int id = leitura.nextInt();
         leitura.nextLine();
         Hacker hacker1 = new Hacker(nome, id);   
-        System.out.println(hacker1.getNome());
-        System.out.println(hacker1.getId());
+        System.out.println("Hacker 1: " + hacker1.getNome());
+        System.out.println("ID: " + hacker1.getId());
 
         //criação da mão do hacker 1
         System.out.println("Hacker 1 - Faça sua escolha: ");
@@ -42,18 +40,17 @@ public class App {
         int desejo = leitura.nextInt();
         leitura.nextLine(); //? transformar em função ?
 
-        List<Carta> maoHacker1;
         if(desejo == 1){
-            maoHacker1 = Jogador.selecionaCartas(leitura, ataques, defesas, suportes, true);
+            hacker1.selecionaCartas(leitura, ataques, defesas, suportes, true);
         }
         else {
-            maoHacker1 = Jogador.selecionaCartas(leitura, ataques, defesas, suportes, false);
+            hacker1.selecionaCartas(leitura, ataques, defesas, suportes, false);
         }
 
         //verifica se jogo é contra bot ou outro hacker
         if(modoDeJogo == 1){
             Bot bot = new Bot();
-            List<Carta> maoBot = Jogador.selecionaCartas(leitura, ataques, defesas, suportes, true);
+            bot.selecionaCartas(leitura, ataques, defesas, suportes, true);
         }
         else{
             //criação do hacker 2
@@ -73,12 +70,11 @@ public class App {
             desejo = leitura.nextInt();
             leitura.nextLine();
 
-            List<Carta> maoHacker2;
-            if(desejo == 2){
-                maoHacker1 = Jogador.selecionaCartas(leitura, ataques, defesas, suportes, true);
+            if(desejo == 1){
+                hacker2.selecionaCartas(leitura, ataques, defesas, suportes, true);
             }
             else {
-                maoHacker2 = Jogador.selecionaCartas(leitura, ataques, defesas, suportes, false);
+                hacker2.selecionaCartas(leitura, ataques, defesas, suportes, false);
             }
         }
     }
