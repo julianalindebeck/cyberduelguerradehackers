@@ -25,7 +25,7 @@ public class App {
         int modoDeJogo = lerInteiro(); //passa o valor lido para modoDeJogo
 
         while(modoDeJogo != 1 && modoDeJogo != 2){
-            System.out.println("Opção inválida! Digite 1 para Hacker vs Bot ou 2 para Hacker vs Hacker");
+            System.out.println("\nOpção inválida! Digite 1 para Hacker vs Bot ou 2 para Hacker vs Hacker");
             modoDeJogo = lerInteiro();
         } //verifica se o modo de jogo escolhido é válido
 
@@ -48,14 +48,14 @@ public class App {
             escolhaDeCartas(hacker2, ataques, defesas, suportes);
             jogador2 = hacker2;
         }
-        
+
         Jogo jogo = new Jogo(jogador1, jogador2, leitura);
         jogo.iniciaJogo();
     }
 
     //método para criar os hackers
     public static Hacker criarHacker(int n){
-        System.out.println("Hacker " + n);
+        System.out.println("\nHacker " + n);
         
         System.out.print("Escolha seu nome: ");
         String nome = leitura.nextLine();
@@ -64,19 +64,19 @@ public class App {
         int id = lerInteiro();
 
         Hacker hacker = new Hacker(nome, id);
-        System.out.println("Hacker criado: " + hacker.getNome() + " (ID: " + hacker.getId() + ")");
+        System.out.println("\nHacker criado: " + hacker.getNome() + " (ID: " + hacker.getId() + ")");
         return hacker;
     }
 
     //método para decidir se a escolha de cartas é aleatória ou não
     public static void escolhaDeCartas(Jogador jogador, List<Ataque> atq, List<Defesa> def, List<Suporte> sup){
-        System.out.println(jogador.getNome() + " faça sua escolha de cartas:");
+        System.out.println("\n" + jogador.getNome() + " faça sua escolha de cartas:");
         System.out.println("1. Desejo cartas aleatórias");
         System.out.println("2. Desejo escolher minhas cartas");
         
         int desejo = lerInteiro();
         while(desejo != 1 && desejo != 2){
-            System.out.println("Opção inválida! Escolha 1 para cartas aleatórias e 2 para escolher as próprias cartas.");
+            System.out.println("\nOpção inválida! Escolha 1 para cartas aleatórias e 2 para escolher as próprias cartas.");
             desejo = lerInteiro();
         } //verifica se escolha para seleção de cartas é válida
 

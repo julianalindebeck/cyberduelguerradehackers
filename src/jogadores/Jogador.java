@@ -48,34 +48,34 @@ public abstract class Jogador {
         }
 
         //ataque
-        System.out.println("Selecione as cartas de ataque: ");
+        System.out.println("\nSelecione as cartas de ataque: ");
         for(int i = 0; i < ataques.size(); i++){
             System.out.println((i + 1) + " - " + ataques.get(i).getNome() + " - Poder: " + ataques.get(i).getPoder());
         }
         for(int i = 0; i < 4; i++){
-            System.out.print("Escolha a carta " + (i+1) + ": ");
+            System.out.print("\nEscolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
             mao.add(ataques.get(cartaEscolhida));
         }
 
         //defesa
-        System.out.println("Selecione as cartas de defesa: ");
+        System.out.println("\nSelecione as cartas de defesa: ");
         for(int i = 0; i < defesas.size(); i++){
             System.out.println((i + 1) + " - " + defesas.get(i).getNome() + " - Poder: " + defesas.get(i).getPoder());
         }
         for(int i = 0; i < 4; i++){
-            System.out.print("Escolha a carta " + (i+1) + ": ");
+            System.out.print("\nEscolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
             mao.add(defesas.get(cartaEscolhida));
         }
 
         //suporte
-        System.out.println("Selecione as cartas de suporte: ");
+        System.out.println("\nSelecione as cartas de suporte: ");
         for(int i = 0; i < suportes.size(); i++){
             System.out.println((i + 1) + " - " + suportes.get(i).getNome() + " - Poder: " + suportes.get(i).getPoder());
         }
         for(int i = 0; i < 2; i++){
-            System.out.print("Escolha a carta " + (i+1) + ": ");
+            System.out.print("\nEscolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
             mao.add(suportes.get(cartaEscolhida));
         }
@@ -103,7 +103,7 @@ public abstract class Jogador {
     
     public void jogada(){
         if(!verificaJogada()){
-            System.out.println("Energia insuficiente! Sua vez será pulada.");
+            System.out.println("\nEnergia insuficiente! Sua vez será pulada.");
             energia++;
             return;
         }
@@ -121,24 +121,26 @@ public abstract class Jogador {
             if(escolha == 1){
                 inicio = 0;
                 fim = 4;
+                System.out.println("\nSuas cartas de ataque: ");
             }
             else if(escolha == 2){
                 inicio = 4;
                 fim = 8;
+                System.out.println("\nSuas cartas de defesa: ");
             }
             else if(escolha == 3){
                 inicio = 8; 
                 fim = 10;
+                System.out.println("\nSuas cartas de suporte: ");
             }
             else{
-                System.out.println("Opção inválida! Tente novamente.");
+                System.out.println("\nOpção inválida! Tente novamente.");
                 continue;
             }
 
-            System.out.println("Suas cartas: ");
             imprimeCartas(inicio, fim);
 
-            System.out.print("Quantas cartas deseja jogar?");
+            System.out.print("\nQuantas cartas deseja jogar? \n");
             int qtd = leitura.nextInt();
             List<Integer> indices = new ArrayList<>(); //indices das cartas selecionadas pelo jogador
 
@@ -155,7 +157,7 @@ public abstract class Jogador {
             }
 
             if(custoTotal > energia){
-                System.out.println("Energia insuficiente para jogar essas cartas!");
+                System.out.println("\nEnergia insuficiente para jogar essas cartas!");
                 continue;
             }
             //diminui a energia do jogador
@@ -168,7 +170,7 @@ public abstract class Jogador {
                 mao.remove(inicio + i - 1);
             }
 
-            System.out.println("Cartas jogadas!");
+            System.out.println("\nCartas jogadas!");
             jogadaValida = true;
         }
 
@@ -176,7 +178,7 @@ public abstract class Jogador {
         if(mao.size() == 0){
             mao.clear();
             mao.addAll(maoOriginal);
-            System.out.println("Sua mão foi restaurada!");
+            System.out.println("\nSua mão foi restaurada!");
         }
         energia++;
     }
