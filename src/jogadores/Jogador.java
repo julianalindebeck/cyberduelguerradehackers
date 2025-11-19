@@ -80,4 +80,32 @@ public abstract class Jogador {
         maoOriginal.clear();
         maoOriginal.addAll(mao);
     }
+    
+    //verifica se existe alguma carta na mão que possa ser jogada com a energia atual
+    public boolean verificaJogada(){ 
+        for (Carta c : mao){
+            if (c.getCusto() <= energia){
+                return true;
+            } 
+        }
+        return false;
+    }
+    
+    private void imprimeCartas(int inicio, int fim){
+        int j = 1;
+        for(int i = inicio; i < fim; i++){
+            System.out.println(j + " - " + mao.get(i).toString());
+            j++;
+        }
+    }
+    
+    public void jogada(){
+        if(!verificaJogada()){
+            System.out.println("Energia insuficiente! Sua vez será pulada.");
+            energia++;
+            return;
+        }
+    }
+
+    
 }
