@@ -22,7 +22,12 @@ public class App {
         System.out.println("1. Hacker vs Bot");
         System.out.println("2. Hacker vs Hacker");
         int modoDeJogo = lerInteiro(); //passa o valor lido para modoDeJogo
-        
+
+        while(modoDeJogo != 1 && modoDeJogo != 2){
+            System.out.println("Opção inválida! Digite 1 para Hacker vs Bot ou 2 para Hacker vs Hacker");
+            modoDeJogo = lerInteiro();
+        } //verifica se o modo de jogo escolhido é válido
+
         //criação do hacker 1
         Hacker hacker1 = criarHacker(1);
         escolhaDeCartas(hacker1, ataques, defesas, suportes);
@@ -61,6 +66,10 @@ public class App {
         System.out.println("2. Desejo escolher minhas cartas");
         
         int desejo = lerInteiro();
+        while(desejo != 1 && desejo != 2){
+            System.out.println("Opção inválida! Escolha 1 para cartas aleatórias e 2 para escolher as próprias cartas.");
+            desejo = lerInteiro();
+        } //verifica se escolha para seleção de cartas é válida
 
         if (desejo == 1){
             jogador.selecionaCartas(leitura, atq, def, sup, true);
