@@ -17,6 +17,8 @@ public abstract class Jogador {
     protected double energia = 10;
     protected List<Carta> mao = new ArrayList<>();
     protected List<Carta> maoOriginal = new ArrayList<>();
+    protected List<Carta> cartasEmJogo = new ArrayList<>();
+    protected Scanner leitura = new Scanner(System.in);
 
     public String getNome(){
         return nome;
@@ -105,7 +107,77 @@ public abstract class Jogador {
             energia++;
             return;
         }
-    }
 
-    
+        boolean jogadaValida = false;
+        while(!jogadaValida){
+            System.out.println("\nEscolha o tipo de cartas que deseja jogar:");
+            System.out.println("1 - Ataque");
+            System.out.println("2 - Defesa");
+            System.out.println("3 - Suporte");
+
+            int escolha = leitura.nextInt();
+            int inicio = 0, fim = 0;
+
+            if(escolha == 1){
+                inicio = 0;
+                fim = 4;
+            }
+            else if(escolha == 2){
+                inicio = 4;
+                fim = 8;
+            }
+            else if(escolha == 3){
+                inicio = 8; 
+                fim = 10;
+            }
+            else{
+                System.out.println("Opção inválida! Tente novamente.");
+                continue;
+            }
+
+            System.out.println("Suas cartas: ");
+            imprimeCartas(inicio, fim);
+
+            System.out.print("Quantas cartas deseja jogar?");
+            int qtd = leitura.nextInt();
+            List<Integer> indices = new ArrayList<>(); //indices das cartas selecionadas pelo jogador
+
+            for(int i = 0; i < qtd; i++){
+                System.out.print("Escolha a carta " + (i + 1) + ": ");
+                indices.add(leitura.nextInt());
+            }
+            Collections.sort(indices, Collections.reverseOrder()); //ordena em ordem decrescente
+
+            //calcula o custo total de energia das cartas selecionadas
+            int custoTotal = 0;
+            for(int i : indices){
+                custoTotal += mao.get(inicio + i - 1).getCusto();
+            }
+
+            if(custoTotal > energia){
+                System.out.println("Energia insuficiente para jogar essas cartas!");
+                continue;
+            }
+            //diminui a energia do jogador
+            energia -= custoTotal;
+
+            //move cartas para cartasEmJogo e tira da mão
+            for(int i : indices){
+                Carta c = mao.get(inicio + i - 1);
+                cartasEmJogo.add(c);
+                mao.remove(inicio + i - 1);
+            }
+
+            System.out.println("Cartas jogadas!");
+            jogadaValida = true;
+        }
+
+        //se a mão esvaziou, restaura exatamente como era no início
+        if(mao.size() == 0){
+            mao.clear();
+            mao.addAll(maoOriginal);
+            System.out.println("Sua mão foi restaurada!");
+        }
+        energia++;
+    }
 }
