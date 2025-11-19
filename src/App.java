@@ -7,6 +7,7 @@ import cartas.Suporte;
 import jogadores.Bot;
 import jogadores.Hacker;
 import jogadores.Jogador;
+import jogo.Jogo;
 import leituraDeArquivos.Leitor;
 
 public class App {
@@ -32,16 +33,24 @@ public class App {
         Hacker hacker1 = criarHacker(1);
         escolhaDeCartas(hacker1, ataques, defesas, suportes);
 
+        Jogador jogador1 = hacker1;
+        Jogador jogador2;
+
         //verifica se jogo é contra bot ou outro hacker
         if(modoDeJogo == 1){
             Bot bot = new Bot();
             bot.selecionaCartas(leitura, ataques, defesas, suportes, true);
+            jogador2 = bot;
         }
         else{
             //criação do hacker 2
             Hacker hacker2 = criarHacker(2);
             escolhaDeCartas(hacker2, ataques, defesas, suportes);
+            jogador2 = hacker2;
         }
+        
+        Jogo jogo = new Jogo(jogador1, jogador2, leitura);
+        jogo.iniciaJogo();
     }
 
     //método para criar os hackers

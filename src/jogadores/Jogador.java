@@ -96,7 +96,7 @@ public abstract class Jogador {
     private void imprimeCartas(int inicio, int fim){
         int j = 1;
         for(int i = inicio; i < fim; i++){
-            System.out.println(j + " - " + mao.get(i).toString());
+            System.out.println(j + " - " + mao.get(i).getNome());
             j++;
         }
     }
