@@ -25,19 +25,28 @@ public class Jogo {
         boolean verificaJogo = true;
 
         while(verificaJogo){
+            System.out.println("Vez de: " + primeiroJogador.getNome());
+
             if(!(primeiroJogador instanceof Bot)){
                 System.out.println(primeiroJogador.getNome() + " deseja desistir?");
-                Scanner opcao = new Scanner(System.in);
                 System.out.println("1 - Sim");
                 System.out.println("2 - Não");
-                int escolha = opcao.nextInt();
-                opcao.nextLine();
+                int escolha = leitura.nextInt();
+
                 if(escolha == 1){
+                    System.out.println(primeiroJogador.getNome() + " desistiu!");
+                    System.out.println("VENCEDOR: " + segundoJogador.getNome());
                     verificaJogo = false;
                     break;
-                }               
+                }
             }
+
+            primeiroJogador.jogada();
+
+            //inverte o turno
+            Jogador aux = primeiroJogador;
+            primeiroJogador = segundoJogador;
+            segundoJogador = aux;
         }
     }
-
 }
