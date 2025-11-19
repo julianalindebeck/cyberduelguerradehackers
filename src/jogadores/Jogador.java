@@ -44,8 +44,13 @@ public abstract class Jogador {
             this.mao.addAll(defesas.subList(0, 4));
             this.mao.addAll(suportes.subList(0, 2));
 
+            this.maoOriginal.clear();
+            this.maoOriginal.addAll(mao);
+
             return;
         }
+
+        List<Integer> cartasEscolhidas = new ArrayList<>();
 
         //ataque
         System.out.println("\nSelecione as cartas de ataque: ");
@@ -55,7 +60,20 @@ public abstract class Jogador {
         for(int i = 0; i < 4; i++){
             System.out.print("\nEscolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
-            mao.add(ataques.get(cartaEscolhida));
+            while(cartaEscolhida < 1 || cartaEscolhida > ataques.size()){
+                System.out.print("\nCarta inválida! Escolha novamente a carta " + (i+1) + ": ");
+                cartaEscolhida = escolha.nextInt();
+            }
+
+            cartasEscolhidas.add(cartaEscolhida);
+            //verifica se a carta já foi escolhida
+            boolean ehRepetido = verificaDuplicidade(cartaEscolhida, cartasEscolhidas);
+            if(ehRepetido){
+                i--;
+                continue;
+            }
+
+            mao.add(ataques.get(cartaEscolhida - 1));
         }
 
         //defesa
@@ -66,7 +84,19 @@ public abstract class Jogador {
         for(int i = 0; i < 4; i++){
             System.out.print("\nEscolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
-            mao.add(defesas.get(cartaEscolhida));
+            while(cartaEscolhida < 1 || cartaEscolhida > defesas.size()){
+                System.out.print("\nCarta inválida! Escolha novamente a carta " + (i+1) + ": ");
+                cartaEscolhida = escolha.nextInt();
+            }
+
+            cartasEscolhidas.add(cartaEscolhida);
+            boolean ehRepetido = verificaDuplicidade(cartaEscolhida, cartasEscolhidas);
+            if(ehRepetido){
+                i--;
+                continue;
+            }
+
+            mao.add(defesas.get(cartaEscolhida - 1));
         }
 
         //suporte
@@ -77,12 +107,40 @@ public abstract class Jogador {
         for(int i = 0; i < 2; i++){
             System.out.print("\nEscolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
-            mao.add(suportes.get(cartaEscolhida));
+            while(cartaEscolhida < 1 || cartaEscolhida > suportes.size()){
+                System.out.print("\nCarta inválida! Escolha novamente a carta " + (i+1) + ": ");
+                cartaEscolhida = escolha.nextInt();
+            }
+
+            cartasEscolhidas.add(cartaEscolhida);
+            boolean ehRepetido = verificaDuplicidade(cartaEscolhida, cartasEscolhidas);
+            if(ehRepetido){
+                i--;
+                continue;
+            }
+
+            mao.add(suportes.get(cartaEscolhida - 1));
         }
-        maoOriginal.clear();
-        maoOriginal.addAll(mao);
+
+        this.maoOriginal.clear();
+        this.maoOriginal.addAll(mao);
     }
     
+    //verifica se o jogador já escolheu a carta
+    public boolean verificaDuplicidade(int i, List<Integer> cartasEscolhidas){
+        int contador = 0;
+        for(int j : cartasEscolhidas){
+            if(j == i){
+                contador++;
+            }
+        }
+        if(contador > 1){
+            System.out.println("\nCarta já escolhida! Escolha outra carta.");
+            return true;
+        }
+        return false;
+    }
+
     //verifica se existe alguma carta na mão que possa ser jogada com a energia atual
     public boolean verificaJogada(){ 
         for (Carta c : mao){
