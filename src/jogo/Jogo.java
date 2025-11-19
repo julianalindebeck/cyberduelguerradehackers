@@ -41,7 +41,8 @@ public class Jogo {
                 }
             }
 
-            primeiroJogador.jogada();
+            boolean ehBot = (primeiroJogador instanceof Bot);
+            primeiroJogador.jogada(!ehBot);
 
             //inverte o turno
             Jogador aux = primeiroJogador;
