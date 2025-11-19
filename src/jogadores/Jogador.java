@@ -16,6 +16,7 @@ public abstract class Jogador {
     protected double vida = 100;
     protected double energia = 10;
     protected List<Carta> mao = new ArrayList<>();
+    protected List<Carta> maoOriginal = new ArrayList<>();
 
     public String getNome(){
         return nome;
@@ -76,5 +77,7 @@ public abstract class Jogador {
             int cartaEscolhida = escolha.nextInt();
             mao.add(suportes.get(cartaEscolhida));
         }
+        maoOriginal.clear();
+        maoOriginal.addAll(mao);
     }
 }
