@@ -26,6 +26,7 @@ public class Jogo {
 
         while(verificaJogo){
             System.out.println("\nVez de: " + primeiroJogador.getNome());
+            System.out.println("Energia: " + primeiroJogador.getEnergia() + " | Vida: " + primeiroJogador.getVida() + "\n");
 
             if(!(primeiroJogador instanceof Bot)){
                 System.out.println(primeiroJogador.getNome() + " deseja desistir?");
@@ -42,7 +43,7 @@ public class Jogo {
             }
 
             boolean ehBot = (primeiroJogador instanceof Bot);
-            primeiroJogador.jogada(!ehBot);
+            primeiroJogador.jogada(ehBot);
 
             //inverte o turno
             Jogador aux = primeiroJogador;

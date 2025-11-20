@@ -29,6 +29,14 @@ public abstract class Jogador {
         return id;
     }
 
+    public double getEnergia(){
+        return energia;
+    }
+
+    public double getVida(){
+        return vida;
+    }
+
     public void selecionaCartas(
         Scanner escolha,
         List<Ataque> ataques,
@@ -56,13 +64,14 @@ public abstract class Jogador {
         //ataque
         System.out.println("\nSelecione as cartas de ataque: ");
         for(int i = 0; i < ataques.size(); i++){
-            System.out.println((i + 1) + " - " + ataques.get(i).getNome() + " - Poder: " + ataques.get(i).getPoder());
+            System.out.println((i + 1) + " - " + ataques.get(i).getNome() + " - Poder: " + ataques.get(i).getPoder() + " (Custo: " + ataques.get(i).getCusto() + ")");
         }
+        System.out.print("\n");
         for(int i = 0; i < 4; i++){
-            System.out.print("\nEscolha a carta " + (i+1) + ": ");
+            System.out.print("Escolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
             while(cartaEscolhida < 1 || cartaEscolhida > ataques.size()){
-                System.out.print("\nCarta inválida! Escolha novamente a carta " + (i+1) + ": ");
+                System.out.print("\nCarta inválida! Escolha novamente a carta " + (i+1) + ": " + "\n");
                 cartaEscolhida = escolha.nextInt();
             }
 
@@ -77,16 +86,19 @@ public abstract class Jogador {
             mao.add(ataques.get(cartaEscolhida - 1));
         }
 
+        cartasEscolhidas.clear();
+
         //defesa
         System.out.println("\nSelecione as cartas de defesa: ");
         for(int i = 0; i < defesas.size(); i++){
-            System.out.println((i + 1) + " - " + defesas.get(i).getNome() + " - Poder: " + defesas.get(i).getPoder());
+            System.out.println((i + 1) + " - " + defesas.get(i).getNome() + " - Poder: " + defesas.get(i).getPoder() + " (Custo: " + defesas.get(i).getCusto() + ")");
         }
+        System.out.print("\n");
         for(int i = 0; i < 4; i++){
-            System.out.print("\nEscolha a carta " + (i+1) + ": ");
+            System.out.print("Escolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
             while(cartaEscolhida < 1 || cartaEscolhida > defesas.size()){
-                System.out.print("\nCarta inválida! Escolha novamente a carta " + (i+1) + ": ");
+                System.out.print("\nCarta inválida! Escolha novamente a carta " + (i+1) + ": " + "\n");
                 cartaEscolhida = escolha.nextInt();
             }
 
@@ -100,16 +112,19 @@ public abstract class Jogador {
             mao.add(defesas.get(cartaEscolhida - 1));
         }
 
+        cartasEscolhidas.clear();
+
         //suporte
         System.out.println("\nSelecione as cartas de suporte: ");
         for(int i = 0; i < suportes.size(); i++){
-            System.out.println((i + 1) + " - " + suportes.get(i).getNome() + " - Poder: " + suportes.get(i).getPoder());
+            System.out.println((i + 1) + " - " + suportes.get(i).getNome() + " - Poder: " + suportes.get(i).getPoder() + " (Custo: " + suportes.get(i).getCusto() + ")");
         }
+        System.out.print("\n");
         for(int i = 0; i < 2; i++){
-            System.out.print("\nEscolha a carta " + (i+1) + ": ");
+            System.out.print("Escolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
             while(cartaEscolhida < 1 || cartaEscolhida > suportes.size()){
-                System.out.print("\nCarta inválida! Escolha novamente a carta " + (i+1) + ": ");
+                System.out.print("\nCarta inválida! Escolha novamente a carta " + (i+1) + ": " + "\n");
                 cartaEscolhida = escolha.nextInt();
             }
 
@@ -169,7 +184,7 @@ public abstract class Jogador {
 
         boolean jogadaValida = false;
 
-        if(ehBot){ //verifica se jogador é bot ou não
+        if(!ehBot){ //verifica se jogador é bot ou não
             while(!jogadaValida){
                 System.out.println("\nEscolha o tipo de cartas que deseja jogar:");
                 System.out.println("1 - Ataque");
@@ -201,13 +216,35 @@ public abstract class Jogador {
 
                 imprimeCartas(inicio, fim);
 
-                System.out.print("\nQuantas cartas deseja jogar? \n");
-                int qtd = leitura.nextInt();
+                int qtdVerifica = 0;
+
+                do{
+                    if(qtdVerifica < 0 || qtdVerifica > fim - inicio){
+                        System.out.print("\nOpção inválida! Quantas cartas deseja jogar? \n");
+                    }
+                    else{
+                        System.out.print("\nQuantas cartas deseja jogar? \n");
+                    }
+                    int qtd = leitura.nextInt();
+                    qtdVerifica = qtd;
+                }while(qtdVerifica < 0 || qtdVerifica > fim - inicio);
+
                 List<Integer> indices = new ArrayList<>(); //indices das cartas selecionadas pelo jogador
 
-                for(int i = 0; i < qtd; i++){
-                    System.out.print("Escolha a carta " + (i + 1) + ": ");
-                    indices.add(leitura.nextInt());
+                int escolhaCarta = 0;
+
+                for(int i = 0; i < qtdVerifica; i++){
+                    do{
+                        if(escolhaCarta < 0 || escolhaCarta > qtdVerifica){
+                            System.out.print("\nOpção inválida! Escolha novamente a carta " + (i + 1) + ": ");
+                        }
+                        else{
+                            System.out.print("Escolha a carta " + (i + 1) + ": ");
+                        }
+                        escolhaCarta = leitura.nextInt();
+                    }while(escolhaCarta < 0 || escolhaCarta > qtdVerifica);
+                
+                    indices.add(escolhaCarta);
                 }
                 Collections.sort(indices, Collections.reverseOrder()); //ordena em ordem decrescente
 
@@ -256,19 +293,19 @@ public abstract class Jogador {
                     inicio = 0;
                     fim = 4;
                     limite = 4;
-                    System.out.println("\nBot jogando cartas de ataque!");
+                    System.out.println("Bot jogando cartas de ataque!");
                 }
                 else if(escolha == 2){
                     inicio = 4;
                     fim = 8;
                     limite = 4;
-                    System.out.println("\nBot jogando cartas de defesa!");
+                    System.out.println("Bot jogando cartas de defesa!");
                 }
                 else{
                     inicio = 8;
                     fim = 10;
                     limite = 2;
-                    System.out.println("\nBot jogando cartas de suporte!");
+                    System.out.println("Bot jogando cartas de suporte!");
                 }
 
                 List<Integer> opcoes = new ArrayList<>();
