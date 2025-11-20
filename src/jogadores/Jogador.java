@@ -189,7 +189,6 @@ public abstract class Jogador {
                 System.out.println("\nEscolha o tipo de cartas que deseja jogar:");
                 System.out.println("1 - Ataque");
                 System.out.println("2 - Defesa");
-                System.out.println("3 - Suporte");
 
                 int escolha = leitura.nextInt();
                 int inicio = 0, fim = 0;
@@ -197,29 +196,36 @@ public abstract class Jogador {
                 if(escolha == 1){
                     inicio = 0;
                     fim = 4;
-                    System.out.println("\nSuas cartas de ataque: ");
+                    System.out.println("\nVocê escolheu cartas de ataque!");
                 }
                 else if(escolha == 2){
                     inicio = 4;
                     fim = 8;
-                    System.out.println("\nSuas cartas de defesa: ");
-                }
-                else if(escolha == 3){
-                    inicio = 8; 
-                    fim = 10;
-                    System.out.println("\nSuas cartas de suporte: ");
+                    System.out.println("\nVocê escolheu cartas de defesa!");
                 }
                 else{
                     System.out.println("\nOpção inválida! Tente novamente.");
                     continue;
                 }
 
-                imprimeCartas(inicio, fim);
+                System.out.println("\nDeseja também jogar cartas de suporte? \n1 - Sim \n2 - Não");
+                int desejaSuporte = leitura.nextInt();
 
-                int qtdVerifica = 0;
+                int inicio2 = 8, fim2 = 10;
+                boolean incluirSuporte = (desejaSuporte == 1);
+
+                System.out.println("\nCartas do tipo escolhido: ");
+                imprimeCartas(inicio, fim);
+                if(incluirSuporte){
+                    System.out.println("\nCartas de suporte: ");
+                    imprimeCartas(inicio2, fim2);
+                }
+
+                int maxCartas = (fim - inicio) + (incluirSuporte?2:0);
+                int qtdVerifica = 1;
 
                 do{
-                    if(qtdVerifica < 0 || qtdVerifica > fim - inicio){
+                    if(qtdVerifica <= 0 || qtdVerifica > maxCartas){
                         System.out.print("\nOpção inválida! Quantas cartas deseja jogar? \n");
                     }
                     else{
@@ -227,22 +233,21 @@ public abstract class Jogador {
                     }
                     int qtd = leitura.nextInt();
                     qtdVerifica = qtd;
-                }while(qtdVerifica < 0 || qtdVerifica > fim - inicio);
+                }while(qtdVerifica < 0 || qtdVerifica > maxCartas);
 
                 List<Integer> indices = new ArrayList<>(); //indices das cartas selecionadas pelo jogador
 
-                int escolhaCarta = 0;
-
                 for(int i = 0; i < qtdVerifica; i++){
+                int escolhaCarta = 1;
                     do{
-                        if(escolhaCarta < 0 || escolhaCarta > qtdVerifica){
+                        if(escolhaCarta <= 0 || escolhaCarta > qtdVerifica){
                             System.out.print("\nOpção inválida! Escolha novamente a carta " + (i + 1) + ": ");
                         }
                         else{
                             System.out.print("Escolha a carta " + (i + 1) + ": ");
                         }
                         escolhaCarta = leitura.nextInt();
-                    }while(escolhaCarta < 0 || escolhaCarta > qtdVerifica);
+                    }while(escolhaCarta < 0 || escolhaCarta > maxCartas);
                 
                     indices.add(escolhaCarta);
                 }
@@ -251,7 +256,16 @@ public abstract class Jogador {
                 //calcula o custo total de energia das cartas selecionadas
                 int custoTotal = 0;
                 for(int i : indices){
-                    custoTotal += mao.get(inicio + i - 1).getCusto();
+                    int j;
+
+                    if(i <= (fim - inicio)){
+                        j = inicio + i - 1;
+                    }
+                    else{
+                        j = inicio2 + (i - (fim - inicio)) - 1;
+                    }
+
+                    custoTotal += mao.get(j).getCusto();
                 }
 
                 if(custoTotal > energia){
@@ -264,9 +278,17 @@ public abstract class Jogador {
 
                 //move cartas para cartasEmJogo e tira da mão
                 for(int i : indices){
-                    Carta c = mao.get(inicio + i - 1);
-                    cartasEmJogo.add(c);
-                    mao.remove(inicio + i - 1);
+                    int j;
+
+                    if(i <= (fim - inicio)){
+                        j = inicio + i - 1;
+                    }
+                    else{
+                        j = inicio2 + (i - (fim - inicio)) - 1;
+                    }
+
+                    cartasEmJogo.add(mao.get(j));
+                    mao.remove(j);
                 }
 
                 System.out.println("\nCartas jogadas!");
