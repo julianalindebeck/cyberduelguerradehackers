@@ -26,10 +26,10 @@ public class Jogo {
 
         while(verificaJogo){
             System.out.println("\nVez de: " + primeiroJogador.getNome());
-            System.out.println("Energia: " + primeiroJogador.getEnergia() + " | Vida: " + primeiroJogador.getVida() + "\n");
+            System.out.println("Energia: " + primeiroJogador.getEnergia() + " | Vida: " + primeiroJogador.getVida());
 
             if(!(primeiroJogador instanceof Bot)){
-                System.out.println(primeiroJogador.getNome() + " deseja desistir?");
+                System.out.println("\n" + primeiroJogador.getNome() + " deseja desistir?");
                 System.out.println("1 - Sim");
                 System.out.println("2 - Não");
                 int escolha = leitura.nextInt();

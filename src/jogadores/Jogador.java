@@ -167,12 +167,15 @@ public abstract class Jogador {
         return false;
     }
     
-    private void imprimeCartas(int inicio, int fim){
-        int j = 1;
+    private void imprimeCartas(int inicio, int fim, int val){
+        int cont = val;
+
         for(int i = inicio; i < fim; i++){
-            System.out.println(j + " - " + mao.get(i).getNome());
-            j++;
-        }
+            if (i < mao.size()){
+                System.out.println(cont + " - " + mao.get(i).getNome());
+                cont++;
+            }
+        }   
     }
     
     public void jogada(boolean ehBot){
@@ -215,10 +218,10 @@ public abstract class Jogador {
                 boolean incluirSuporte = (desejaSuporte == 1);
 
                 System.out.println("\nCartas do tipo escolhido: ");
-                imprimeCartas(inicio, fim);
+                imprimeCartas(inicio, fim, 1);
                 if(incluirSuporte){
                     System.out.println("\nCartas de suporte: ");
-                    imprimeCartas(inicio2, fim2);
+                    imprimeCartas(inicio2, fim2, (fim - inicio) + 1);
                 }
 
                 int maxCartas = (fim - inicio) + (incluirSuporte?2:0);
@@ -307,51 +310,76 @@ public abstract class Jogador {
 
             while(!jogadaValida){
                 //faz escolha aleatória de tipo de carta
-                int escolha = rng.nextInt(3) + 1;
+                int escolha = rng.nextInt(2) + 1;
 
-                int inicio = 0, fim = 0, limite = 0;
+                int inicio = 0, fim = 0;
 
                 if(escolha == 1){
                     inicio = 0;
                     fim = 4;
-                    limite = 4;
-                    System.out.println("Bot jogando cartas de ataque!");
-                }
-                else if(escolha == 2){
-                    inicio = 4;
-                    fim = 8;
-                    limite = 4;
-                    System.out.println("Bot jogando cartas de defesa!");
+                    System.out.println("\nBot jogando cartas de ataque!");
                 }
                 else{
-                    inicio = 8;
-                    fim = 10;
-                    limite = 2;
-                    System.out.println("Bot jogando cartas de suporte!");
+                    inicio = 4;
+                    fim = 8;
+                    System.out.println("\nBot jogando cartas de defesa!");
                 }
+                
+                boolean incluirSuporte = rng.nextBoolean();
+                int inicio2 = 8, fim2 = 10;
+
+                if(incluirSuporte){
+                    System.out.println("\nBot decidiu incluir cartas de suporte!");
+                }
+                else{
+                    System.out.println("\nBot decidiu não incluir suporte!");
+                }
+
+                int qtdTipo = 0;
+                for(int i = inicio; i < fim; i++){
+                    if(i < mao.size()){
+                        qtdTipo++;
+                    }
+                }
+
+                int qtdSuporte = 0;
+                if(incluirSuporte){
+                    for(int i = inicio2; i < fim2; i++){
+                        if(i < mao.size()) qtdSuporte++;
+                    }
+                }
+
+                int maxCartas = qtdTipo + qtdSuporte;
+                if(maxCartas == 0) continue;
+
+                int qtdVerifica = rng.nextInt(maxCartas) + 1;
 
                 List<Integer> opcoes = new ArrayList<>();
 
                 //guarda os índices das cartas que o bot pode jogar
-                for(int i = 0; i < limite; i++){
-                    if(mao.get(inicio + i).getCusto() <= energia){
-                        opcoes.add(i + 1);
+                while(opcoes.size() < qtdVerifica){
+                    int escolhaCarta = rng.nextInt(maxCartas) + 1;
+
+                    if(!opcoes.contains(escolhaCarta)){
+                        opcoes.add(escolhaCarta);
                     }
                 }
 
-                if (opcoes.isEmpty()) {
-                    continue;
-                }
-                
-                //faz escolha aleatória de quantidade de cartas a serem jogadas
-                int quantidade = rng.nextInt(opcoes.size()) + 1;
-
-                //guarda os índices selecionados
-                List<Integer> selecionadas = opcoes.subList(0, quantidade);
+                //ordena decrescente
+                Collections.sort(opcoes, Collections.reverseOrder());
 
                 int custoTotal = 0;
-                for(int i : selecionadas){
-                    custoTotal += mao.get(inicio + i - 1).getCusto();
+                for(int i : opcoes){
+                    int j;
+
+                    if(i <= qtdTipo){  
+                        j = inicio + i - 1; 
+                    }
+                    else{  
+                        j = inicio2 + (i - qtdTipo) - 1;
+                    }
+
+                    custoTotal += mao.get(j).getCusto();
                 }
 
                 if(custoTotal > energia){
@@ -362,13 +390,18 @@ public abstract class Jogador {
                 //diminui a energia do bot
                 energia -= custoTotal;
 
-                List<Integer> ordenadas = new ArrayList<>(selecionadas);
-                Collections.sort(ordenadas, Collections.reverseOrder()); //ordena decrescente
+                for(int i : opcoes){
+                    int j;
 
-                for(int i : ordenadas){
-                    Carta c = mao.get(inicio + i - 1);
-                    cartasEmJogo.add(c);
-                    mao.remove(inicio + i - 1);
+                    if(i <= qtdTipo){
+                        j = inicio + i - 1;
+                    }
+                    else{
+                        j = inicio2 + (i - qtdTipo) - 1;
+                    }
+                    
+                    cartasEmJogo.add(mao.get(j));
+                    mao.remove(j);
                 }
 
                 System.out.println("\nCartas do Bot jogadas:");
