@@ -99,7 +99,7 @@ public abstract class Jogador {
         //ataque
         System.out.println("\nSelecione as cartas de ataque: ");
         for(int i = 0; i < ataques.size(); i++){
-            System.out.println((i + 1) + " - " + ataques.get(i).getNome() + " - Poder: " + ataques.get(i).getPoder() + " (Custo: " + ataques.get(i).getCusto() + ")");
+            System.out.println((i + 1) + " - " + ataques.get(i).getNome() + " - Poder: " + ataques.get(i).getPoder() + " - Custo: " + ataques.get(i).getCusto());
         }
         System.out.print("\n");
         for(int i = 0; i < 4; i++){
@@ -214,7 +214,14 @@ public abstract class Jogador {
             System.out.println("\n");
         }   
     }
-    
+
+    //reseta os atributos do jogador
+    public void resetaTurno(){
+        this.ataque = 0;
+        this.defesa = 0;
+        this.cartasEmJogo.clear();
+    }
+
     public void jogada(boolean ehBot){
 
         //verifica se o jogador pode jogar alguma carta
@@ -259,7 +266,7 @@ public abstract class Jogador {
                 //calcula o custo total de energia das cartas selecionadas
                 int custoTotal = 0;
                 for(int i : indices){
-                    custoTotal += mao.get(i).getCusto();
+                    custoTotal += mao.get(i-1).getCusto();
                 }
 
                 if(custoTotal > energia){
@@ -272,8 +279,8 @@ public abstract class Jogador {
 
                 //move cartas para cartasEmJogo e tira da mão
                 for(int i : indices){
-                    cartasEmJogo.add(mao.get(i));
-                    mao.remove(i);
+                    cartasEmJogo.add(mao.get(i-1));
+                    mao.remove(i-1);
                 }
 
                 System.out.println("\n*---------------*");
@@ -284,7 +291,7 @@ public abstract class Jogador {
             }
 
             //se a mão esvaziou, restaura exatamente como era no início
-            if(mao.size() == 0){
+            if(mao.isEmpty()){
                 mao.clear();
                 mao.addAll(maoOriginal);
                 System.out.println("\nSua mão foi restaurada!");
@@ -341,7 +348,7 @@ public abstract class Jogador {
                 jogadaValida = true;
             }
 
-            if(mao.size() == 0){
+            if(mao.isEmpty()){
                 mao.clear();
                 mao.addAll(maoOriginal);
                 System.out.println("\nA mão do Bot foi restaurada!");

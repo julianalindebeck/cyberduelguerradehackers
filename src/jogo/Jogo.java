@@ -24,6 +24,10 @@ public class Jogo {
         boolean verificaJogo = true;
 
         while(verificaJogo){
+            //reseta os atributos dos jogadores
+            primeiroJogador.resetaTurno();
+            segundoJogador.resetaTurno();
+            
             System.out.println("\nVez de: " + primeiroJogador.getNome());
             System.out.println("Energia: " + primeiroJogador.getEnergia() + " | Vida: " + primeiroJogador.getVida());
 

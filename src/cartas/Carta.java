@@ -27,7 +27,7 @@ public abstract class Carta { //classe abstrata: não pode ser instanciada, apen
     }
 
     public String getEfeito(){
-        return nome;
+        return efeito.orElse("Nenhum efeito");
     }
 
     public String getDescricao(){
