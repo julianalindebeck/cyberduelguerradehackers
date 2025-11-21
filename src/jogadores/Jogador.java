@@ -18,8 +18,9 @@ public abstract class Jogador {
     protected double energia = 10;
     protected List<Carta> mao = new ArrayList<>();
     protected List<Carta> maoOriginal = new ArrayList<>();
-    protected List<Carta> cartasEmJogo = new ArrayList<>();
     protected Scanner leitura = new Scanner(System.in);
+
+    public List<Carta> cartasEmJogo = new ArrayList<>();
 
     public String getNome(){
         return nome;
@@ -35,6 +36,10 @@ public abstract class Jogador {
 
     public double getVida(){
         return vida;
+    }
+
+    public void setVida(double vida){
+        this.vida+=vida;
     }
 
     public void selecionaCartas(
