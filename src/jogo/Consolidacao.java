@@ -13,24 +13,34 @@ public class Consolidacao {
             double defesaJ1 = 0;
             double defesaJ2 = 0;
             double dano = 0;
+
+            System.out.println("\nTodos os jogadores escolheram suas cartas! Hora de calcular os danos!");
+
             for(Carta c : jogador1.cartasEmJogo){
                 if(c instanceof Ataque){
-                   ataqueJ1 +=c.getPoder(); 
+                   ataqueJ1 +=c.getPoder();
+                   System.out.println("\n" + jogador1.getNome() + " atacou!");
                 }
                 if(c instanceof Defesa){
                     defesaJ1+=c.getPoder();
+                    System.out.println("\n" + jogador1.getNome() + " se defendeu!");
                 }
             }
             for(Carta c : jogador2.cartasEmJogo){
                 if(c instanceof Ataque){
-                   ataqueJ2+=c.getPoder(); 
+                   ataqueJ2+=c.getPoder();
+                   System.out.println("\n" + jogador2.getNome() + " atacou!");
                 }
                 if(c instanceof Defesa){
                     defesaJ2+=c.getPoder();
+                    System.out.println("\n" + jogador2.getNome() + " se defendeu!");
                 }
             }
+
             boolean temSuporte = false;
             Carta suporte = null;
+
+            //jogador1
             for(Carta c : jogador1.cartasEmJogo){
                 if(c instanceof Suporte){
                     temSuporte = true;
@@ -38,39 +48,51 @@ public class Consolidacao {
                     break;
                 }
             }
-            if(suporte.getEfeito() == "AUMENTA_VIDA"){
-                jogador1.setVida(suporte.getPoder());
-                if(jogador1.getVida() > 100){
-                    jogador1.setVida(100);
-                }
-            }
-            else if(suporte.getEfeito() == "AUMENTA_ATAQUE"){
-                if(ataqueJ1 == 0){
-                    System.out.println("\n Carta de suporte inválida!");
-                }
-                else{
-                    double maior = 0;
-                    for(Carta c : jogador1.cartasEmJogo){
-                        if(c.getPoder() > maior){
-                            maior = c.getPoder();
-                        }
+
+            if(temSuporte){
+
+                System.out.println("\n" + jogador1.getNome() + " jogou uma carta de suporte!");
+
+                if(suporte.getEfeito() == "AUMENTA_VIDA"){
+                    jogador1.setVida(suporte.getPoder());
+                    if(jogador1.getVida() > 100){
+                        jogador1.setVida(100);
                     }
-                    ataqueJ1 = ataqueJ1 - maior + (maior*(1+suporte.getPoder()));
+
+                    System.out.println("\n" + jogador1.getNome() + " aumentou sua vida!\n" + "Vida: " + jogador1.getVida());
 
                 }
+                else if(suporte.getEfeito() == "AUMENTA_ATAQUE"){
+                    if(ataqueJ1 == 0){
+                        System.out.println("\nCarta de suporte inválida!");
+                    }
+                    else{
+                        double maior = 0;
+                        for(Carta c : jogador1.cartasEmJogo){
+                            if(c.getPoder() > maior){
+                                maior = c.getPoder();
+                            }
+                        }
+                        ataqueJ1 = ataqueJ1 - maior + (maior*(1+suporte.getPoder()));
+
+                        System.out.println("\n" + jogador1.getNome() + " aumentou seu ataque!\n" + "Ataque: " + ataqueJ1);
+                    }
+                }
+                else{
+                    if(ataqueJ2 == 0){
+                        System.out.println("\nCarta de suporte inválida!");
+                    }
+                    else{
+                        ataqueJ2 = ataqueJ2 - (ataqueJ2 * suporte.getPoder());
+                        System.out.println("\n" + jogador1.getNome() + " enfraqueceu o adversário!");
+                    }
+                }
             }
-            else{
-               if(ataqueJ2 == 0){
-                System.out.println("\nCarta de suporte inválida!");
-               }
-               else{
-                ataqueJ2 = ataqueJ2 - (ataqueJ2 * suporte.getPoder());
-               }
-            }
+
             suporte = null;
             temSuporte = false;
 
-            //Jogador 2
+            //jogador 2
             for(Carta c : jogador2.cartasEmJogo){
                 if(c instanceof Suporte){
                     temSuporte = true;
@@ -78,34 +100,46 @@ public class Consolidacao {
                     break;
                 }
             }
-            if(suporte.getEfeito() == "AUMENTA_VIDA"){
-                jogador2.setVida(suporte.getPoder());
-                if(jogador2.getVida() > 100){
-                    jogador2.setVida(100);
-                }
-            }
-            else if(suporte.getEfeito() == "AUMENTA_ATAQUE"){
-                if(ataqueJ2 == 0){
-                    System.out.println("\n Carta de suporte inválida!");
-                }
-                else{
-                    double maior = 0;
-                    for(Carta c : jogador2.cartasEmJogo){
-                        if(c.getPoder() > maior){
-                            maior = c.getPoder();
-                        }
+
+            if(temSuporte){
+
+                System.out.println("\n" + jogador2.getNome() + " jogou uma carta de suporte!");
+
+                if(suporte.getEfeito() == "AUMENTA_VIDA"){
+                    jogador2.setVida(suporte.getPoder());
+                    if(jogador2.getVida() > 100){
+                        jogador2.setVida(100);
                     }
-                    ataqueJ2 = ataqueJ2 - maior + (maior*(1+suporte.getPoder()));
+
+                System.out.println("\n" + jogador2.getNome() + " aumentou sua vida!\n" + "Vida: " + jogador2.getVida());
 
                 }
-            }
-            else{
-               if(ataqueJ1 == 0){
-                System.out.println("\nCarta de suporte inválida!");
-               }
-               else{
-                ataqueJ1 = ataqueJ1 - (ataqueJ1 * suporte.getPoder());
-               }
+                else if(suporte.getEfeito() == "AUMENTA_ATAQUE"){
+                    if(ataqueJ2 == 0){
+                        System.out.println("\n Carta de suporte inválida!");
+                    }
+                    else{
+                        double maior = 0;
+                        for(Carta c : jogador2.cartasEmJogo){
+                            if(c.getPoder() > maior){
+                                maior = c.getPoder();
+                            }
+                        }
+                        ataqueJ2 = ataqueJ2 - maior + (maior*(1+suporte.getPoder()));
+
+                        System.out.println("\n" + jogador2.getNome() + " aumentou seu ataque!\n" + "Ataque: " + ataqueJ2);
+
+                    }
+                }
+                else{
+                    if(ataqueJ1 == 0){
+                        System.out.println("\nCarta de suporte inválida!");
+                    }
+                    else{
+                        ataqueJ1 = ataqueJ1 - (ataqueJ1 * suporte.getPoder());
+                        System.out.println("\n" + jogador1.getNome() + " enfraqueceu o adversário!");
+                    }
+                }
             }
 
             if(ataqueJ1 == 0 && ataqueJ2 == 0){
@@ -115,6 +149,7 @@ public class Consolidacao {
                 dano = ataqueJ2 - defesaJ1;
                 if(dano > defesaJ1){
                     jogador1.setVida(jogador1.getVida() - dano);
+                    System.out.println("\n" + jogador2.getNome() + " atacou e feriu " + jogador1.getNome() + ".");
                 }
                 else{
                     System.out.println("\nNenhum dano causado!");
@@ -124,6 +159,7 @@ public class Consolidacao {
                 dano = ataqueJ1 - defesaJ2;
                 if(dano > defesaJ2){
                     jogador2.setVida(jogador2.getVida() - dano);
+                    System.out.println("\n" + jogador1.getNome() + " atacou e feriu " + jogador2.getNome() + ".");
                 }
                 else{
                     System.out.println("\nNenhum dano causado!");
@@ -132,6 +168,7 @@ public class Consolidacao {
             else{
                 jogador1.setVida(jogador1.getVida()- ataqueJ2);
                 jogador2.setVida(jogador2.getVida()- ataqueJ1);
+                System.out.println("\nAmbos os jogadores saíram feridos!");
             }
 
         }

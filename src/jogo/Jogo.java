@@ -45,6 +45,26 @@ public class Jogo {
 
             boolean ehBot = (primeiroJogador instanceof Bot);
             primeiroJogador.jogada(ehBot);
+            
+            System.out.println("\nVez de: " + segundoJogador.getNome());
+            System.out.println("Energia: " + segundoJogador.getEnergia() + " | Vida: " + segundoJogador.getVida());
+
+            if(!(segundoJogador instanceof Bot)){
+                System.out.println("\n" + segundoJogador.getNome() + " deseja desistir?");
+                System.out.println("1 - Sim");
+                System.out.println("2 - Não");
+                int escolha = leitura.nextInt();
+
+                if(escolha == 1){
+                    System.out.println("\n" + segundoJogador.getNome() + " desistiu!");
+                    System.out.println("\nVENCEDOR: " + primeiroJogador.getNome());
+                    verificaJogo = false;
+                    break;
+                }
+            }
+            
+            ehBot = (segundoJogador instanceof Bot);
+            segundoJogador.jogada(ehBot);
 
             Consolidacao.calcularDano(primeiroJogador, segundoJogador);
 

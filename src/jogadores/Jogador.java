@@ -39,7 +39,11 @@ public abstract class Jogador {
     }
 
     public void setVida(double vida){
-        this.vida+=vida;
+        this.vida += vida;
+        
+        if(vida > 100){
+            vida = 100;
+        }
     }
 
     public void selecionaCartas(
