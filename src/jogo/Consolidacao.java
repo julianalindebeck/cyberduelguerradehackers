@@ -169,5 +169,7 @@ public class Consolidacao {
 
             jogador1.arredondarVida();
             jogador2.arredondarVida();
+
+            //limpar cartas em jogo
         }
 }
