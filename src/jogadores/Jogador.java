@@ -21,6 +21,8 @@ public abstract class Jogador {
     protected Scanner leitura = new Scanner(System.in);
 
     public List<Carta> cartasEmJogo = new ArrayList<>();
+    public double ataque = 0;
+    public double defesa = 0;
 
     public String getNome(){
         return nome;
