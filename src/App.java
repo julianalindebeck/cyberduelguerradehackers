@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import cartas.Ataque;
+import cartas.Carta;
 import cartas.Defesa;
 import cartas.Suporte;
 import jogadores.Bot;
@@ -50,12 +51,13 @@ public class App {
 
             System.out.println("\nHacker criado: " + bot.getNome() + "  | ID: " + bot.getId());
 
-            /* ARRUMAR ISSO IMPRIMIR MAO DO BOT
+            //imprimi mão do bot
             System.out.println("\nMão do Bot:");
             int i = 1;
             for(Carta c : jogador2.getMao()){
-                System.out.println(i + " - " c.getNome() + "\n");
-            }*/
+                System.out.println(i + " - " + c.getNome() + "\n");
+                i++;
+            }
 
             Replay.registrar("\nO jogo será contra um Bot!\nBot | ID: 202565001");
         }

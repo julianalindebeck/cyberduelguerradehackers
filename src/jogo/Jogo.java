@@ -54,9 +54,9 @@ public class Jogo {
             primeiroJogador.jogada(ehBot);
 
             Replay.registrar("\nCartas jogadas por " + primeiroJogador.getNome() + ": ");
-            /*for(Carta c : primeiroJogador.cartasEmJogo()){ ARRUMAR ISSO
+            for(Carta c : primeiroJogador.cartasEmJogo){//corrigido
                 Replay.registrar(c.getNome());
-            }*/
+            }
             
             System.out.println("\nVez de: " + segundoJogador.getNome());
             System.out.println("Energia: " + segundoJogador.getEnergia() + " | Vida: " + segundoJogador.getVida());
@@ -72,9 +72,9 @@ public class Jogo {
             segundoJogador.jogada(ehBot);
 
             Replay.registrar("\nCartas jogadas por " + segundoJogador.getNome() + ": ");
-            /*for(Carta c : segundoJogador.cartasEmJogo()){ ARRUMAR ISSO
+            for(Carta c : segundoJogador.cartasEmJogo){//corrigido
                 Replay.registrar(c.getNome());
-            }*/
+            }
 
             Consolidacao.calcularDano(primeiroJogador, segundoJogador);
 
