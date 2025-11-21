@@ -38,11 +38,35 @@ public abstract class Jogador {
         return vida;
     }
 
-    public void setVida(double vida){
-        this.vida += vida;
-        
-        if(vida > 100){
-            vida = 100;
+    public void setVidaMais(double poder){
+        this.vida += poder;
+
+        if(this.vida > 100){
+            this.vida = 100;
+        }
+    }
+
+    public void setVidaMenos(double poder){
+        this.vida -= poder;
+
+        if(this.vida < 0){
+            this.vida = 0;
+        }
+    }
+
+    public void arredondarVida(){
+        if(this.vida % 10 != 0){
+            int resto = (int)(this.vida % 10);
+
+            if (resto >= 5) {
+                this.vida += (10 - resto);
+            }
+
+            this.vida -= resto;
+        }
+
+        if(this.vida > 100){
+            this.vida = 100;
         }
     }
 

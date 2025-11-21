@@ -54,10 +54,7 @@ public class Consolidacao {
                 System.out.println("\n" + jogador1.getNome() + " jogou uma carta de suporte!");
 
                 if(suporte.getEfeito() == "AUMENTA_VIDA"){
-                    jogador1.setVida(suporte.getPoder());
-                    if(jogador1.getVida() > 100){
-                        jogador1.setVida(100);
-                    }
+                    jogador1.setVidaMais(suporte.getPoder());
 
                     System.out.println("\n" + jogador1.getNome() + " aumentou sua vida!\n" + "Vida: " + jogador1.getVida());
 
@@ -106,13 +103,9 @@ public class Consolidacao {
                 System.out.println("\n" + jogador2.getNome() + " jogou uma carta de suporte!");
 
                 if(suporte.getEfeito() == "AUMENTA_VIDA"){
-                    jogador2.setVida(suporte.getPoder());
-                    if(jogador2.getVida() > 100){
-                        jogador2.setVida(100);
-                    }
+                    jogador2.setVidaMais(suporte.getPoder());
 
-                System.out.println("\n" + jogador2.getNome() + " aumentou sua vida!\n" + "Vida: " + jogador2.getVida());
-
+                    System.out.println("\n" + jogador2.getNome() + " aumentou sua vida!\n" + "Vida: " + jogador2.getVida());
                 }
                 else if(suporte.getEfeito() == "AUMENTA_ATAQUE"){
                     if(ataqueJ2 == 0){
@@ -148,7 +141,7 @@ public class Consolidacao {
             else if(ataqueJ1 == 0){
                 dano = ataqueJ2 - defesaJ1;
                 if(dano > defesaJ1){
-                    jogador1.setVida(jogador1.getVida() - dano);
+                    jogador1.setVidaMenos(dano);
                     System.out.println("\n" + jogador2.getNome() + " atacou e feriu " + jogador1.getNome() + ".");
                 }
                 else{
@@ -158,7 +151,7 @@ public class Consolidacao {
             else if(ataqueJ2 == 0){
                 dano = ataqueJ1 - defesaJ2;
                 if(dano > defesaJ2){
-                    jogador2.setVida(jogador2.getVida() - dano);
+                    jogador2.setVidaMenos(dano);
                     System.out.println("\n" + jogador1.getNome() + " atacou e feriu " + jogador2.getNome() + ".");
                 }
                 else{
@@ -166,11 +159,12 @@ public class Consolidacao {
                 }
             }
             else{
-                jogador1.setVida(jogador1.getVida()- ataqueJ2);
-                jogador2.setVida(jogador2.getVida()- ataqueJ1);
+                jogador1.setVidaMenos(ataqueJ2);
+                jogador2.setVidaMenos(ataqueJ1);
                 System.out.println("\nAmbos os jogadores saíram feridos!");
             }
 
+            jogador1.arredondarVida();
+            jogador2.arredondarVida();
         }
-
 }
