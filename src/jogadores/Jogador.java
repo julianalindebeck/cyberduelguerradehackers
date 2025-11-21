@@ -61,17 +61,18 @@ public abstract class Jogador {
     }
 
     public void arredondarVida(){
-        if(this.vida % 10 != 0){
-            int resto = (int)(this.vida % 10);
+        int resto = (int)(this.vida % 10);
 
-            if (resto >= 5) {
+        if (resto != 0){
+            if (resto >= 5){
                 this.vida += (10 - resto);
             }
-
-            this.vida -= resto;
+            else{
+                this.vida -= resto;
+            }
         }
 
-        if(this.vida > 100){
+        if (this.vida > 100){
             this.vida = 100;
         }
     }
@@ -180,54 +181,9 @@ public abstract class Jogador {
         this.maoOriginal.clear();
         this.maoOriginal.addAll(mao);
     }
-    
-    //verifica se o jogador já escolheu a carta
-    public boolean verificaDuplicidade(int i, List<Integer> cartasEscolhidas){
-        int contador = 0;
-        for(int j : cartasEscolhidas){
-            if(j == i){
-                contador++;
-            }
-        }
-        if(contador > 1){
-            System.out.println("\nCarta já escolhida! \nEscolha outra carta.\n ");
-            return true;
-        }
-        return false;
-    }
 
-    //verifica se existe alguma carta na mão que possa ser jogada com a energia atual
-    public boolean verificaJogada(){ 
-        for (Carta c : mao){
-            if (c.getCusto() <= energia){
-                return true;
-            } 
-        }
-        return false;
-    }
-    
-    private void imprimeCartas(){
-        for(int i = 0; i < mao.size(); i++){
-            System.out.println((i + 1) + " - " + mao.get(i).getNome());
-            System.out.print("TIPO: " + mao.get(i).getTipo() + " | PODER: " + mao.get(i).getPoder() + " | CUSTO: " + mao.get(i).getCusto());
-
-            if(mao.get(i) instanceof Suporte){
-                System.out.print(" | EFEITO: " + mao.get(i).getEfeito());
-            }
-           
-            System.out.println("\n");
-        }   
-    }
-
-    //reseta os atributos do jogador
-    public void resetaTurno(){
-        this.ataque = 0;
-        this.defesa = 0;
-        this.cartasEmJogo.clear();
-    }
-
+    //escolha de cartas para o turno de cada jogador
     public void jogada(boolean ehBot){
-
         //verifica se o jogador pode jogar alguma carta
         if(!verificaJogada()){
             System.out.println("\nEnergia insuficiente! Sua vez será pulada.");
@@ -387,11 +343,56 @@ public abstract class Jogador {
         }
     }
     
+    //verifica se o jogador já escolheu a carta
+    public boolean verificaDuplicidade(int i, List<Integer> cartasEscolhidas){
+        int contador = 0;
+        for(int j : cartasEscolhidas){
+            if(j == i){
+                contador++;
+            }
+        }
+        if(contador > 1){
+            System.out.println("\nCarta já escolhida! \nEscolha outra carta.\n ");
+            return true;
+        }
+        return false;
+    }
+
+    //verifica se existe alguma carta na mão que possa ser jogada com a energia atual
+    public boolean verificaJogada(){ 
+        for (Carta c : mao){
+            if (c.getCusto() <= energia){
+                return true;
+            } 
+        }
+        return false;
+    }
+
+    //reseta os atributos do jogador
+    public void resetaTurno(){
+        this.ataque = 0;
+        this.defesa = 0;
+        this.cartasEmJogo.clear();
+    }
+
     private static void esperar(long ms){
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    private void imprimeCartas(){
+        for(int i = 0; i < mao.size(); i++){
+            System.out.println((i + 1) + " - " + mao.get(i).getNome());
+            System.out.print("TIPO: " + mao.get(i).getTipo() + " | PODER: " + mao.get(i).getPoder() + " | CUSTO: " + mao.get(i).getCusto());
+
+            if(mao.get(i) instanceof Suporte){
+                System.out.print(" | EFEITO: " + mao.get(i).getEfeito());
+            }
+           
+            System.out.println("\n");
+        }   
     }
 }

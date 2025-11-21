@@ -50,7 +50,14 @@ public class App {
 
             System.out.println("\nHacker criado: " + bot.getNome() + "  | ID: " + bot.getId());
 
-            Replay.registrar("O jogo será contra um Bot!\nBot | ID: 202565001");
+            /* ARRUMAR ISSO IMPRIMIR MAO DO BOT
+            System.out.println("\nMão do Bot:");
+            int i = 1;
+            for(Carta c : jogador2.getMao()){
+                System.out.println(i + " - " c.getNome() + "\n");
+            }*/
+
+            Replay.registrar("\nO jogo será contra um Bot!\nBot | ID: 202565001");
         }
         else{
             //criação do hacker 2
@@ -58,7 +65,7 @@ public class App {
             escolhaDeCartas(hacker2, ataques, defesas, suportes);
             jogador2 = hacker2;
 
-            Replay.registrar("O jogo será contra um hacker humano!\n" + jogador2.getNome() + " | ID: " + jogador2.getId());
+            Replay.registrar("\nO jogo será contra um hacker humano!\n" + jogador2.getNome() + " | ID: " + jogador2.getId());
         }
 
         Jogo jogo = new Jogo(jogador1, jogador2, leitura);

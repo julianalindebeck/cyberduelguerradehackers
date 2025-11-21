@@ -8,12 +8,15 @@ import cartas.Carta;
 import cartas.Defesa;
 import cartas.Suporte;
 import jogadores.Jogador;
+import replay.Replay;
 
 public class Consolidacao {
     public static void calcularDano(Jogador jogador1, Jogador jogador2){
         System.out.println("\n*--------------------------------------------------------------------*");
         System.out.println("Todos os jogadores escolheram suas cartas! Hora de calcular os danos!");
         System.out.println("*--------------------------------------------------------------------*");
+
+        Replay.registrar("\nCartas escolhidas! Hora de calcular os danos!");
 
         double dano = 0;
 
@@ -34,51 +37,75 @@ public class Consolidacao {
 
         if(jogador1.ataque != 0 && jogador2.defesa != 0){
             dano = jogador1.ataque - jogador2.defesa;
+
             if(dano > jogador2.defesa){
                 jogador2.setVidaMenos(dano);
                 esperar(500);
                 System.out.println("\n" + jogador2.getNome() + " recebeu " + dano + " de dano!\nVida: " + jogador2.getVida());
+
+                Replay.registrar("\n" + jogador2.getNome() + " recebeu " + dano + " de dano!\nVida: " + jogador2.getVida());
             }
             else{
                 esperar(500);
                 System.out.println("\n" + jogador2.getNome() + " conseguiu se defender!");
+
+                Replay.registrar("\n" + jogador2.getNome() + " conseguiu se defender!");
             }
         }
         if(jogador2.ataque != 0 && jogador1.defesa != 0){
             dano = jogador2.ataque - jogador1.defesa;
+
             if(dano > jogador1.defesa){
                 jogador1.setVidaMenos(dano);
                 esperar(500);
                 System.out.println("\n" + jogador1.getNome() + " recebeu " + dano + " de dano!\nVida: " + jogador1.getVida());
+
+                Replay.registrar("\n" + jogador1.getNome() + " recebeu " + dano + " de dano!\nVida: " + jogador1.getVida());
             }
             else{
                 esperar(500);
                 System.out.println("\n" + jogador1.getNome() + " conseguiu se defender!");
+
+                Replay.registrar("\n" + jogador1.getNome() + " conseguiu se defender!");
             }
         }
         if(jogador1.ataque !=0 && jogador2.defesa == 0){
             dano = jogador1.ataque;
-            esperar(500);
             jogador2.setVidaMenos(dano);
+
+            esperar(500);
             System.out.println("\n" + jogador2.getNome() + " recebeu " + dano + " de dano!\nVida: " + jogador2.getVida());
+
+            Replay.registrar("\n" + jogador2.getNome() + " recebeu " + dano + " de dano!\nVida: " + jogador2.getVida());
         }
         if(jogador2.ataque !=0 && jogador1.defesa == 0){
             dano = jogador2.ataque;
             jogador1.setVidaMenos(dano);
+
             esperar(500);
             System.out.println("\n" + jogador1.getNome() + " recebeu " + dano + " de dano!\nVida: " + jogador1.getVida());
+
+            Replay.registrar("\n" + jogador1.getNome() + " recebeu " + dano + " de dano!\nVida: " + jogador1.getVida());
         }
         if(jogador1.ataque != 0 && jogador2.ataque != 0 && jogador1.defesa == 0 && jogador2.defesa == 0){
             jogador1.setVidaMenos(jogador2.ataque);
             jogador2.setVidaMenos(jogador1.ataque);
+
             esperar(500);
             System.out.println("\n" + jogador1.getNome() + " recebeu " + jogador2.ataque + " de dano!\nVida: " + jogador1.getVida());
+
+            Replay.registrar("\n" + jogador1.getNome() + " recebeu " + jogador2.ataque + " de dano!\nVida: " + jogador1.getVida());
+
             esperar(500);
             System.out.println("\n" + jogador2.getNome() + " recebeu " + jogador1.ataque + " de dano!\nVida: " + jogador2.getVida());
+
+            Replay.registrar("\n" + jogador2.getNome() + " recebeu " + jogador1.ataque + " de dano!\nVida: " + jogador2.getVida());
         }
         if(jogador1.defesa !=0 && jogador2.defesa !=0 && jogador1.ataque == 0 && jogador2.ataque == 0){
             esperar(500);
             System.out.println("\nNenhum dano foi causado nesse turno!");
+
+            Replay.registrar("\nNenhum dano foi causado nesse turno!");
         }
 
         jogador1.arredondarVida();
