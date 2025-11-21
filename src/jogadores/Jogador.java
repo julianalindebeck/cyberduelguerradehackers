@@ -159,7 +159,7 @@ public abstract class Jogador {
             System.out.print("Escolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
             while(cartaEscolhida < 1 || cartaEscolhida > suportes.size()){
-                System.out.print("\nCarta inválida! Escolha novamente a carta " + (i+1) + ": " + "\n");
+                System.out.print("\nCarta inválida! \nEscolha novamente a carta " + (i+1) + ": " + "\n");
                 cartaEscolhida = escolha.nextInt();
             }
 
@@ -186,7 +186,7 @@ public abstract class Jogador {
             }
         }
         if(contador > 1){
-            System.out.println("\nCarta já escolhida! Escolha outra carta.");
+            System.out.println("\nCarta já escolhida! \nEscolha outra carta.\n ");
             return true;
         }
         return false;
@@ -234,6 +234,17 @@ public abstract class Jogador {
         boolean jogadaValida = false;
 
         if(!ehBot){ //verifica se jogador é bot ou não
+            System.out.println("\nVocê deseja passar sua vez? \n(1) Sim \n(2) Não");
+            int passarVez = leitura.nextInt();
+            while(passarVez != 1 && passarVez != 2){
+                System.out.println("\nOpção inválida! Você deseja passar sua vez? \n(1) Sim \n(2) Não");
+                passarVez = leitura.nextInt();
+            }
+            if(passarVez == 1){
+                System.out.println("\nVocê passou sua vez!");
+                energia++;
+                return;
+            }
             while(!jogadaValida){
                 System.out.println("\nHora de fazer sua jogada! Escolha suas cartas:\n");
                 imprimeCartas();
@@ -253,7 +264,7 @@ public abstract class Jogador {
                     System.out.print("Escolha a carta " + (i + 1) + ": ");
                     int escolhaCarta = leitura.nextInt();
 
-                    while(escolhaCarta <= 0 || escolhaCarta > mao.size()){
+                    while(escolhaCarta <= 0 || escolhaCarta > mao.size() || indices.contains(escolhaCarta)){
                         System.out.print("\nCarta inválida! Escolha novamente a carta " + (i + 1) + ": ");
                         escolhaCarta = leitura.nextInt();
                     }
@@ -301,56 +312,66 @@ public abstract class Jogador {
             Random rng = new Random();
 
             while(!jogadaValida){
+                List<Carta> cartasValidas = new ArrayList<>();
+                for(Carta c : mao){
+                    if(c.getCusto() <= energia){
+                        cartasValidas.add(c);
+                    }
+                }
                 //faz escolha aleatória de quantas cartas o bot vai jogar
-                int qtd = rng.nextInt(mao.size()) + 1;
+                int qtd = rng.nextInt(cartasValidas.size()) + 1;
 
-                List<Integer> indices = new ArrayList<>();
-
-                //guarda os índices das cartas que o bot pode jogar
-                while(indices.size() < qtd){
-                    int escolhaCarta = rng.nextInt(mao.size());
-
-                    if(!indices.contains(escolhaCarta)){
-                        indices.add(escolhaCarta);
+                List<Carta> cartasEscolhidas = new ArrayList<>();
+                while(cartasEscolhidas.size() < qtd){
+                    Carta carta = cartasValidas.get(rng.nextInt(cartasValidas.size()));
+                    if(!cartasEscolhidas.contains(carta)){
+                        cartasEscolhidas.add(carta);
                     }
                 }
 
-                //ordena decrescente
-                Collections.sort(indices, Collections.reverseOrder());
-
+                // calcula custo total
                 int custoTotal = 0;
-                for(int i : indices){
-                    custoTotal += mao.get(i).getCusto();
+                for(Carta c : cartasEscolhidas){
+                    custoTotal += c.getCusto();
                 }
 
                 if(custoTotal > energia){
+                    esperar(500);
                     System.out.println("\nEnergia insuficiente para jogar essas cartas!");
                     continue;
                 }
 
-                //diminui a energia do bot
+                // gasta energia e move cartas para cartasEmJogo
                 energia -= custoTotal;
-
-                for(int i : indices){
-                    cartasEmJogo.add(mao.get(i));
-                    mao.remove(i);
+                for(Carta c : cartasEscolhidas){
+                    cartasEmJogo.add(c);
+                    mao.remove(c);
                 }
-
-                System.out.println("\n*--------------------*");
+                
+                esperar(500);
+                System.out.println("\n*----------------------------------*");
                 System.out.println("Cartas do Bot jogadas: ");
 
                 for(Carta c : cartasEmJogo){
+                    esperar(500);
                     System.out.println(c.getNome());
+                    System.out.print("TIPO: " + c.getTipo() + " | PODER: " + c.getPoder() + " | CUSTO: " + c.getCusto());
+                    if(c instanceof Suporte){
+                        System.out.print(" | EFEITO: " + c.getEfeito());
+                    }
+                    System.out.println("\n");
                 }
 
-                System.out.println("*--------------------*");
+                System.out.println("*----------------------------------*");
 
                 jogadaValida = true;
+                cartasValidas.clear();
             }
 
             if(mao.isEmpty()){
                 mao.clear();
                 mao.addAll(maoOriginal);
+                esperar(500);
                 System.out.println("\nA mão do Bot foi restaurada!");
             }
         }
@@ -359,6 +380,13 @@ public abstract class Jogador {
         energia++;
         if(energia > 10){
             energia = 10;
+        }
+    }
+    private static void esperar(long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 }

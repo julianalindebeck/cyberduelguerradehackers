@@ -27,7 +27,7 @@ public class Jogo {
             //reseta os atributos dos jogadores
             primeiroJogador.resetaTurno();
             segundoJogador.resetaTurno();
-            
+
             System.out.println("\nVez de: " + primeiroJogador.getNome());
             System.out.println("Energia: " + primeiroJogador.getEnergia() + " | Vida: " + primeiroJogador.getVida());
 
@@ -36,7 +36,12 @@ public class Jogo {
                 System.out.println("(1) Sim");
                 System.out.println("(2) Não");
                 int escolha = leitura.nextInt();
-
+                while(escolha != 1 && escolha != 2){
+                    System.out.println("\nOpção inválida! Deseja desistir?");
+                    System.out.println("(1) Sim");
+                    System.out.println("(2) Não");
+                    escolha = leitura.nextInt();
+                }
                 if(escolha == 1){
                     System.out.println("\n" + primeiroJogador.getNome() + " desistiu!");
                     System.out.println("\nVENCEDOR: " + segundoJogador.getNome());

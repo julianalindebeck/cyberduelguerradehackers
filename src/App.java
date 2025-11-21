@@ -47,7 +47,7 @@ public class App {
             bot.selecionaCartas(leitura, ataques, defesas, suportes, true);
             jogador2 = bot;
 
-            System.out.println("\nHacker criado: " + bot.getNome() + " (ID: " + bot.getId() + ")");
+            System.out.println("\nHacker criado: " + bot.getNome() + "  | ID: " + bot.getId());
         }
         else{
             //criação do hacker 2
@@ -69,9 +69,13 @@ public class App {
         
         System.out.print("Escolha seu ID: ");
         int id = lerInteiro();
+        while(id <=0){
+            System.out.print("\nID inválido! \nEscolha um número positivo para o ID: ");
+            id = lerInteiro();
+        }
 
         Hacker hacker = new Hacker(nome, id);
-        System.out.println("\nHacker criado: " + hacker.getNome() + " (ID: " + hacker.getId() + ")");
+        System.out.println("\nHacker criado: " + hacker.getNome() + " | ID: " + hacker.getId());
         return hacker;
     }
 
