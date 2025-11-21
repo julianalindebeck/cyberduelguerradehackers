@@ -2,8 +2,10 @@ package jogo;
 
 import java.util.Scanner;
 
+import cartas.Carta;
 import jogadores.Bot;
 import jogadores.Jogador;
+import replay.Replay;
 
 public class Jogo {
     private Jogador primeiroJogador;
@@ -20,6 +22,16 @@ public class Jogo {
         System.out.println("\n*------------------*");
         System.out.println("O jogo vai iniciar!");
         System.out.println("*------------------*");
+
+        Replay.registrar("Mão de " + primeiroJogador.getNome() + ":\n");
+        for(Carta c : primeiroJogador.getMao()){
+            Replay.registrar(c.getNome());
+        }
+
+        Replay.registrar("Mão de " + segundoJogador.getNome() + ":\n");
+        for(Carta c : primeiroJogador.getMao()){
+            Replay.registrar(c.getNome());
+        }
 
         boolean verificaJogo = true;
 
@@ -75,10 +87,28 @@ public class Jogo {
 
             Consolidacao.calcularDano(primeiroJogador, segundoJogador);
 
+            if(verificaStatus(primeiroJogador, segundoJogador)){
+                verificaJogo = false;
+            }
+
             //inverte o turno
             Jogador aux = primeiroJogador;
             primeiroJogador = segundoJogador;
             segundoJogador = aux;
         }
+    }
+
+    private static boolean verificaStatus(Jogador jogador1, Jogador jogador2){
+        if(jogador1.getVida() <= 0){
+            System.out.println("\n" + jogador1.getNome() + " foi derrotado!");
+            System.out.println("\nVENCEDOR: " + jogador2.getNome());
+            return true;
+        }
+        else if(jogador2.getVida() <= 0){
+            System.out.println("\n" + jogador2.getNome() + " foi derrotado!");
+            System.out.println("\nVENCEDOR: " + jogador1.getNome());
+            return true;
+        }
+        return false;
     }
 }

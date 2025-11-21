@@ -40,6 +40,10 @@ public abstract class Jogador {
         return vida;
     }
 
+    public List<Carta> getMao(){
+        return mao;
+    }
+
     public void setVidaMais(double poder){
         this.vida += poder;
 
@@ -382,7 +386,8 @@ public abstract class Jogador {
             energia = 10;
         }
     }
-    private static void esperar(long ms) {
+    
+    private static void esperar(long ms){
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {

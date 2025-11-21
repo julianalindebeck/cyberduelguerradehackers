@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,6 +10,7 @@ import jogadores.Hacker;
 import jogadores.Jogador;
 import jogo.Jogo;
 import leituraDeArquivos.Leitor;
+import replay.Replay;
 
 public class App {
     static Scanner leitura = new Scanner(System.in);
@@ -16,7 +18,6 @@ public class App {
         System.out.println("\n*--------------------------------------------------*");
         System.out.println("Seja bem-vinda(o) ao CYBER DUELS: GUERRA DE HACKERS!");
         System.out.println("*--------------------------------------------------*\n");
-
 
         //lê e cria as listas
         List<Ataque> ataques = Leitor.listaDeAtaques();
@@ -48,16 +49,45 @@ public class App {
             jogador2 = bot;
 
             System.out.println("\nHacker criado: " + bot.getNome() + "  | ID: " + bot.getId());
+
+            Replay.registrar("O jogo será contra um Bot!\nBot | ID: 202565001");
         }
         else{
             //criação do hacker 2
             Hacker hacker2 = criarHacker(2);
             escolhaDeCartas(hacker2, ataques, defesas, suportes);
             jogador2 = hacker2;
+
+            Replay.registrar("O jogo será contra um hacker humano!\n" + jogador2.getNome() + " | ID: " + jogador2.getId());
         }
 
         Jogo jogo = new Jogo(jogador1, jogador2, leitura);
         jogo.iniciaJogo();
+
+        Replay.salvarEmArquivo("replay.txt");
+
+        System.out.println("\nDeseja ver o replay completo?");
+        System.out.println("(1) Sim");
+        System.out.println("(2) Não");
+
+        int opcao = lerInteiro();
+        while(opcao != 1 && opcao != 2){
+            System.out.println("Opção inválida! Escolha (1) para ver o replay e (2) para encerrar o jogo.");
+            opcao = lerInteiro();
+        }
+
+        if (opcao == 1) {
+            System.out.println("\n*----- REPLAY -----*\n");
+            try (Scanner sc = new Scanner(new File("replay.txt"))){
+                while (sc.hasNextLine()) {
+                    System.out.println(sc.nextLine());
+                    Thread.sleep(300);
+                }
+            }
+        }
+
+        System.out.println("\nObrigada por jogar!");
+        Replay.limpar();
     }
 
     //método para criar os hackers
@@ -76,6 +106,9 @@ public class App {
 
         Hacker hacker = new Hacker(nome, id);
         System.out.println("\nHacker criado: " + hacker.getNome() + " | ID: " + hacker.getId());
+
+        Replay.registrar("Hacker: " + hacker.getNome() + " | ID: " + hacker.getId());
+
         return hacker;
     }
 
@@ -93,9 +126,13 @@ public class App {
 
         if (desejo == 1){
             jogador.selecionaCartas(leitura, atq, def, sup, true);
+
+            Replay.registrar(jogador.getNome() + " escolheu cartas aleatórias!");
         }
         else{
             jogador.selecionaCartas(leitura, atq, def, sup, false);
+
+            Replay.registrar(jogador.getNome() + " escolheu suas próprias cartas!");
         }
     }
 

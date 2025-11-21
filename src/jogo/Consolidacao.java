@@ -86,7 +86,6 @@ public class Consolidacao {
     }
 
     public static void verificaTipos(Jogador jogador, boolean temSuporte, List<Carta> suporte){
-
         for(Carta c : jogador.cartasEmJogo){
             if(c instanceof Ataque){
                 jogador.ataque += c.getPoder();
@@ -146,18 +145,6 @@ public class Consolidacao {
                     System.out.println("\n" + jogador.getNome() + " enfraqueceu o adversário!");
                 }
             }
-        }
-        verificaStatus(jogador2, jogador2);
-    }
-
-    private static void verificaStatus(Jogador jogador1, Jogador jogador2){
-        if(jogador1.getVida() <= 0){
-            System.out.println("\n" + jogador1.getNome() + " foi derrotado!");
-            System.out.println("\nVENCEDOR: " + jogador2.getNome());
-        }
-        else if(jogador2.getVida() <= 0){
-            System.out.println("\n" + jogador2.getNome() + " foi derrotado!");
-            System.out.println("\nVENCEDOR: " + jogador1.getNome());
         }
     }
 
