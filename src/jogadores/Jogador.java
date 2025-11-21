@@ -223,8 +223,8 @@ public abstract class Jogador {
         if(!ehBot){ //verifica se jogador é bot ou não
             while(!jogadaValida){
                 System.out.println("\nEscolha o tipo de cartas que deseja jogar:");
-                System.out.println("1 - Ataque");
-                System.out.println("2 - Defesa");
+                System.out.println("(1) Ataque");
+                System.out.println("(2) Defesa");
 
                 int escolha = leitura.nextInt();
                 int inicio = 0, fim = 0;
@@ -244,7 +244,7 @@ public abstract class Jogador {
                     continue;
                 }
 
-                System.out.println("\nDeseja também jogar cartas de suporte? \n1 - Sim \n2 - Não");
+                System.out.println("\nDeseja também jogar cartas de suporte? \n(1) Sim \n(2) Não");
                 int desejaSuporte = leitura.nextInt();
 
                 int inicio2 = 8, fim2 = 10;
@@ -326,8 +326,10 @@ public abstract class Jogador {
                     cartasEmJogo.add(mao.get(j));
                     mao.remove(j);
                 }
+                System.out.println("\n*---------------*");
+                System.out.println("Cartas jogadas!");
+                System.out.println("*---------------*");
 
-                System.out.println("\nCartas jogadas!");
                 jogadaValida = true;
             }
 
@@ -437,10 +439,14 @@ public abstract class Jogador {
                     mao.remove(j);
                 }
 
-                System.out.println("\nCartas do Bot jogadas:");
+                System.out.println("\n*--------------------*");
+                System.out.println("Cartas do Bot jogadas: ");
+
                 for(Carta c : cartasEmJogo){
                     System.out.println(c.getNome());
                 }
+
+                System.out.println("*--------------------*");
 
                 jogadaValida = true;
             }

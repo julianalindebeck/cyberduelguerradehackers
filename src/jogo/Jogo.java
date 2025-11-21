@@ -22,7 +22,10 @@ public class Jogo {
     }
 
     public void iniciaJogo(){
-        System.out.println("\nInício de jogo!");
+        System.out.println("\n*------------------*");
+        System.out.println("O jogo vai iniciar!");
+        System.out.println("*------------------*");
+
         boolean verificaJogo = true;
 
         while(verificaJogo){
@@ -31,8 +34,8 @@ public class Jogo {
 
             if(!(primeiroJogador instanceof Bot)){
                 System.out.println("\n" + primeiroJogador.getNome() + " deseja desistir?");
-                System.out.println("1 - Sim");
-                System.out.println("2 - Não");
+                System.out.println("(1) Sim");
+                System.out.println("(2) Não");
                 int escolha = leitura.nextInt();
 
                 if(escolha == 1){
@@ -51,8 +54,8 @@ public class Jogo {
 
             if(!(segundoJogador instanceof Bot)){
                 System.out.println("\n" + segundoJogador.getNome() + " deseja desistir?");
-                System.out.println("1 - Sim");
-                System.out.println("2 - Não");
+                System.out.println("(1) Sim");
+                System.out.println("(2) Não");
                 int escolha = leitura.nextInt();
 
                 if(escolha == 1){

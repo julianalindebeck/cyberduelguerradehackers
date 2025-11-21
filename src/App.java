@@ -13,6 +13,11 @@ import leituraDeArquivos.Leitor;
 public class App {
     static Scanner leitura = new Scanner(System.in);
     public static void main(String[] args) throws Exception{
+        System.out.println("\n*--------------------------------------------------*");
+        System.out.println("Seja bem-vinda(o) ao CYBER DUELS: GUERRA DE HACKERS!");
+        System.out.println("*--------------------------------------------------*\n");
+
+
         //lê e cria as listas
         List<Ataque> ataques = Leitor.listaDeAtaques();
         List<Defesa> defesas = Leitor.listaDeDefesas();
@@ -20,12 +25,12 @@ public class App {
 
         //realiza a leitura do modo de jogo
         System.out.println("Escolha o modo de jogo:");
-        System.out.println("1. Hacker vs Bot");
-        System.out.println("2. Hacker vs Hacker");
+        System.out.println("(1) Hacker vs Bot");
+        System.out.println("(2) Hacker vs Hacker");
         int modoDeJogo = lerInteiro(); //passa o valor lido para modoDeJogo
 
         while(modoDeJogo != 1 && modoDeJogo != 2){
-            System.out.println("\nOpção inválida! Digite 1 para Hacker vs Bot ou 2 para Hacker vs Hacker");
+            System.out.println("\nOpção inválida! Digite (1) para Hacker vs Bot ou (2) para Hacker vs Hacker.");
             modoDeJogo = lerInteiro();
         } //verifica se o modo de jogo escolhido é válido
 
@@ -41,6 +46,8 @@ public class App {
             Bot bot = new Bot();
             bot.selecionaCartas(leitura, ataques, defesas, suportes, true);
             jogador2 = bot;
+
+            System.out.println("\nHacker criado: " + bot.getNome() + " (ID: " + bot.getId() + ")");
         }
         else{
             //criação do hacker 2
@@ -71,12 +78,12 @@ public class App {
     //método para decidir se a escolha de cartas é aleatória ou não
     public static void escolhaDeCartas(Jogador jogador, List<Ataque> atq, List<Defesa> def, List<Suporte> sup){
         System.out.println("\n" + jogador.getNome() + " faça sua escolha de cartas:");
-        System.out.println("1. Desejo cartas aleatórias");
-        System.out.println("2. Desejo escolher minhas cartas");
+        System.out.println("(1) Desejo cartas aleatórias");
+        System.out.println("(2) Desejo escolher minhas cartas");
         
         int desejo = lerInteiro();
         while(desejo != 1 && desejo != 2){
-            System.out.println("\nOpção inválida! Escolha 1 para cartas aleatórias e 2 para escolher as próprias cartas.");
+            System.out.println("\nOpção inválida! Escolha (1) para cartas aleatórias e (2) para escolher as próprias cartas.");
             desejo = lerInteiro();
         } //verifica se escolha para seleção de cartas é válida
 

@@ -14,7 +14,10 @@ public class Consolidacao {
             double defesaJ2 = 0;
             double dano = 0;
 
-            System.out.println("\nTodos os jogadores escolheram suas cartas! Hora de calcular os danos!");
+            System.out.println("\n*--------------------------------------------------------------------*");
+            System.out.println("Todos os jogadores escolheram suas cartas! Hora de calcular os danos!");
+            System.out.println("*--------------------------------------------------------------------*");
+
 
             for(Carta c : jogador1.cartasEmJogo){
                 if(c instanceof Ataque){
