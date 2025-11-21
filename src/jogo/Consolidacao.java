@@ -7,7 +7,7 @@ import cartas.Suporte;
 import jogadores.Jogador;
 
 public class Consolidacao {
-        public void calcularDano(Jogador jogador1, Jogador jogador2){
+        public static void calcularDano(Jogador jogador1, Jogador jogador2){
             double ataqueJ1 = 0;
             double ataqueJ2 = 0;
             double defesaJ1 = 0;

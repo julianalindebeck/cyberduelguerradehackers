@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import jogadores.Bot;
 import jogadores.Jogador;
+import jogo.Consolidacao;
 
 public class Jogo {
     private Jogador jogador1;
@@ -44,6 +45,8 @@ public class Jogo {
 
             boolean ehBot = (primeiroJogador instanceof Bot);
             primeiroJogador.jogada(ehBot);
+
+            Consolidacao.calcularDano(primeiroJogador, segundoJogador);
 
             //inverte o turno
             Jogador aux = primeiroJogador;
