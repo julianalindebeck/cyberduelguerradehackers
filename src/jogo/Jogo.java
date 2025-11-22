@@ -57,7 +57,7 @@ public class Jogo {
             for(Carta c : primeiroJogador.cartasEmJogo){
                 Replay.registrar(c.getNome());
             }
-            
+                    
             esperar(500);
             System.out.println("\nVez de: " + segundoJogador.getNome() + "\nEnergia: " + segundoJogador.getEnergia() + " | Vida: " + segundoJogador.getVida());
 
@@ -67,13 +67,13 @@ public class Jogo {
             if(verificaDesistencia(segundoJogador, primeiroJogador, leitura)){
                 break;
             }
-            
+
             ehBot = (segundoJogador instanceof Bot);
             
             segundoJogador.jogada(ehBot);
 
             Replay.registrar("\nCartas jogadas por " + segundoJogador.getNome() + ": ");
-            for(Carta c : segundoJogador.cartasEmJogo){//corrigido
+            for(Carta c : segundoJogador.cartasEmJogo){
                 Replay.registrar(c.getNome());
             }
 

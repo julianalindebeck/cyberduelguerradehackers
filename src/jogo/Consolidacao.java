@@ -35,10 +35,20 @@ public class Consolidacao {
             verificaSuporte(temSuporte2, jogador2, jogador1, suporte2.get(i));
         }
 
+        if(jogador1.cartasEmJogo.isEmpty()){
+            System.out.println("O jogador " + jogador1.getNome() + "não jogou nesse turno!");
+            Replay.registrar("O jogador " + jogador1.getNome() + "não jogou nesse turno!");
+        }
+
+        if(jogador2.cartasEmJogo.isEmpty()){
+            System.out.println("O jogador " + jogador2.getNome() + "não jogou nesse turno!");
+            Replay.registrar("O jogador " + jogador2.getNome() + "não jogou nesse turno!");
+        }
+
         if(jogador1.ataque != 0 && jogador2.defesa != 0){
             dano = jogador1.ataque - jogador2.defesa;
 
-            if(dano > jogador2.defesa){
+            if(dano > 0){
                 jogador2.setVidaMenos(dano);
                 esperar(800);
                 System.out.println("\n" + jogador2.getNome() + " recebeu " + dano + " de dano! | Vida: " + jogador2.getVida());
@@ -55,7 +65,7 @@ public class Consolidacao {
         if(jogador2.ataque != 0 && jogador1.defesa != 0){
             dano = jogador2.ataque - jogador1.defesa;
 
-            if(dano > jogador1.defesa){
+            if(dano > 0){
                 jogador1.setVidaMenos(dano);
                 esperar(800);
                 System.out.println("\n" + jogador1.getNome() + " recebeu " + dano + " de dano!\nVida: " + jogador1.getVida() + "\n");
@@ -87,7 +97,8 @@ public class Consolidacao {
 
             Replay.registrar("\n" + jogador1.getNome() + " recebeu " + dano + " de dano! | Vida: " + jogador1.getVida());
         }
-        if(jogador1.ataque != 0 && jogador2.ataque != 0 && jogador1.defesa == 0 && jogador2.defesa == 0){
+
+        if(jogador1.ataque > 0 && jogador2.ataque > 0 && jogador1.defesa == 0 && jogador2.defesa == 0){
             jogador1.setVidaMenos(jogador2.ataque);
             jogador2.setVidaMenos(jogador1.ataque);
 
@@ -101,6 +112,7 @@ public class Consolidacao {
 
             Replay.registrar("\n" + jogador2.getNome() + " recebeu " + jogador1.ataque + " de dano! | Vida: " + jogador2.getVida());
         }
+
         if(jogador1.defesa !=0 && jogador2.defesa !=0 && jogador1.ataque == 0 && jogador2.ataque == 0){
             esperar(800);
             System.out.println("\nNenhum dano foi causado nesse turno!");
@@ -131,7 +143,6 @@ public class Consolidacao {
                 suporte.add(c);
             }
         }
-        //return temSuporte; nao teria?
     }
 
     public static void verificaSuporte(boolean temSuporte, Jogador jogador, Jogador jogador2, Carta suporte){
@@ -143,12 +154,13 @@ public class Consolidacao {
                 jogador.setVidaMais(suporte.getPoder());
                 esperar(800);
                 System.out.println("\n" + jogador.getNome() + " aumentou sua vida!\n" + "Vida: " + jogador.getVida());
-
+                return;
             }
-            else if("AUMENTA_ATAQUE".equals(suporte.getEfeito())){
+            if("AUMENTA_ATAQUE".equals(suporte.getEfeito())){
                 if(jogador.ataque == 0){
                     esperar(800);
                     System.out.println("\nCarta de suporte inválida!");
+                    return;
                 }
                 else{
                     double maior = 0;
@@ -160,20 +172,31 @@ public class Consolidacao {
                         }
                     }
 
-                    jogador.ataque = jogador.ataque - maior + (maior * (1+ suporte.getPoder()));
+                    double bonusSuporte = maior * suporte.getPoder();
+                    jogador.ataque += bonusSuporte;
+
                     esperar(800);
                     System.out.println("\n" + jogador.getNome() + " aumentou seu ataque!\n" + "Ataque: " + jogador.ataque);
+                    return;
                 }
             }
             else{
                 if(jogador2.ataque == 0){
                     esperar(800);
                     System.out.println("\nCarta de suporte inválida!");
+                    return;
                 }
                 else{
-                    jogador2.ataque = jogador2.ataque - (jogador2.ataque * suporte.getPoder());
+                    double reducaoSuporte = jogador2.ataque * suporte.getPoder();
+                    jogador2.ataque -= reducaoSuporte;
+
+                    if(jogador2.ataque < 0){
+                        jogador2.ataque=0;
+                    }
+
                     esperar(800);
                     System.out.println("\n" + jogador.getNome() + " enfraqueceu o adversário!");
+                    return;
                 }
             }
         }
