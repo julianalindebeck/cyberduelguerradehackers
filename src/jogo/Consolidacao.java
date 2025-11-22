@@ -12,6 +12,7 @@ import replay.Replay;
 
 public class Consolidacao {
     public static void calcularDano(Jogador jogador1, Jogador jogador2){
+        
         esperar(700);
         System.out.println("\n*--------------------------------------------------------------------*\nTodos os jogadores escolheram suas cartas! Hora de calcular os danos!\n*--------------------------------------------------------------------*");
 
@@ -130,6 +131,7 @@ public class Consolidacao {
                 suporte.add(c);
             }
         }
+        //return temSuporte; nao teria?
     }
 
     public static void verificaSuporte(boolean temSuporte, Jogador jogador, Jogador jogador2, Carta suporte){
@@ -151,11 +153,14 @@ public class Consolidacao {
                 else{
                     double maior = 0;
                     for(Carta c : jogador.cartasEmJogo){
-                        if(c.getPoder() > maior){
+                        if("ATAQUE".equals(c.getTipo())){//pega a maior carta somente dos ataques
+                            if(c.getPoder() > maior){
                             maior = c.getPoder();
+                            }
                         }
                     }
-                    jogador.ataque = jogador.ataque - maior + (maior*(1+suporte.getPoder()));
+
+                    jogador.ataque = jogador.ataque - maior + (maior * (1+ suporte.getPoder()));
                     esperar(800);
                     System.out.println("\n" + jogador.getNome() + " aumentou seu ataque!\n" + "Ataque: " + jogador.ataque);
                 }

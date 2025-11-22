@@ -50,10 +50,11 @@ public class Jogo {
             }
 
             boolean ehBot = (primeiroJogador instanceof Bot);
+
             primeiroJogador.jogada(ehBot);
 
             Replay.registrar("\nCartas jogadas por " + primeiroJogador.getNome() + ": ");
-            for(Carta c : primeiroJogador.cartasEmJogo){//corrigido
+            for(Carta c : primeiroJogador.cartasEmJogo){
                 Replay.registrar(c.getNome());
             }
             
@@ -68,6 +69,7 @@ public class Jogo {
             }
             
             ehBot = (segundoJogador instanceof Bot);
+            
             segundoJogador.jogada(ehBot);
 
             Replay.registrar("\nCartas jogadas por " + segundoJogador.getNome() + ": ");
