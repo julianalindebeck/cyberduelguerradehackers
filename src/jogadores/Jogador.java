@@ -102,12 +102,14 @@ public abstract class Jogador {
         List<Integer> cartasEscolhidas = new ArrayList<>();
 
         //ataque
+        esperar(600);
         System.out.println("\nSelecione as cartas de ataque: ");
         for(int i = 0; i < ataques.size(); i++){
             System.out.println((i + 1) + " - " + ataques.get(i).getNome() + " - Poder: " + ataques.get(i).getPoder() + " - Custo: " + ataques.get(i).getCusto());
         }
         System.out.print("\n");
         for(int i = 0; i < 4; i++){
+            esperar(500);
             System.out.print("Escolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
             while(cartaEscolhida < 1 || cartaEscolhida > ataques.size()){
@@ -129,12 +131,14 @@ public abstract class Jogador {
         cartasEscolhidas.clear();
 
         //defesa
+        esperar(600);
         System.out.println("\nSelecione as cartas de defesa: ");
         for(int i = 0; i < defesas.size(); i++){
             System.out.println((i + 1) + " - " + defesas.get(i).getNome() + " - Poder: " + defesas.get(i).getPoder() + " (Custo: " + defesas.get(i).getCusto() + ")");
         }
         System.out.print("\n");
         for(int i = 0; i < 4; i++){
+            esperar(500);
             System.out.print("Escolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
             while(cartaEscolhida < 1 || cartaEscolhida > defesas.size()){
@@ -155,12 +159,14 @@ public abstract class Jogador {
         cartasEscolhidas.clear();
 
         //suporte
+        esperar(600);
         System.out.println("\nSelecione as cartas de suporte: ");
         for(int i = 0; i < suportes.size(); i++){
             System.out.println((i + 1) + " - " + suportes.get(i).getNome() + " - Poder: " + suportes.get(i).getPoder() + " (Custo: " + suportes.get(i).getCusto() + ")");
         }
         System.out.print("\n");
         for(int i = 0; i < 2; i++){
+            esperar(500);
             System.out.print("Escolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
             while(cartaEscolhida < 1 || cartaEscolhida > suportes.size()){
@@ -186,7 +192,7 @@ public abstract class Jogador {
     public void jogada(boolean ehBot){
         //verifica se o jogador pode jogar alguma carta
         if(!verificaJogada()){
-            System.out.println("\nEnergia insuficiente! Sua vez será pulada.");
+            System.out.println("\nEnergia insuficiente! A vez de " + this.nome + " será pulada.");
             energia++;
             return;
         }
@@ -194,21 +200,28 @@ public abstract class Jogador {
         boolean jogadaValida = false;
 
         if(!ehBot){ //verifica se jogador é bot ou não
+            esperar(500);
             System.out.println("\nVocê deseja passar sua vez? \n(1) Sim \n(2) Não");
             int passarVez = leitura.nextInt();
+
             while(passarVez != 1 && passarVez != 2){
                 System.out.println("\nOpção inválida! Você deseja passar sua vez? \n(1) Sim \n(2) Não");
                 passarVez = leitura.nextInt();
             }
+
             if(passarVez == 1){
+                esperar(500);
                 System.out.println("\nVocê passou sua vez!");
                 energia++;
                 return;
             }
+
             while(!jogadaValida){
-                System.out.println("\nHora de fazer sua jogada! Escolha suas cartas:\n");
+                esperar(500);
+                System.out.println("\nHora de fazer sua jogada! Escolha suas cartas:");
                 imprimeCartas();
 
+                esperar(500);
                 System.out.print("Quantas cartas deseja jogar?\n");
                 int qtd = leitura.nextInt();
                 
@@ -220,11 +233,14 @@ public abstract class Jogador {
 
                 List<Integer> indices = new ArrayList<>(); //indices das cartas selecionadas pelo jogador
 
-                for(int i = 0; i < qtd; i++){                    
+                System.out.print("\n");
+                for(int i = 0; i < qtd; i++){    
+                    esperar(500);
                     System.out.print("Escolha a carta " + (i + 1) + ": ");
                     int escolhaCarta = leitura.nextInt();
 
                     while(escolhaCarta <= 0 || escolhaCarta > mao.size() || indices.contains(escolhaCarta)){
+                    esperar(500);
                         System.out.print("\nCarta inválida! Escolha novamente a carta " + (i + 1) + ": ");
                         escolhaCarta = leitura.nextInt();
                     }
@@ -254,9 +270,8 @@ public abstract class Jogador {
                     mao.remove(i-1);
                 }
 
-                System.out.println("\n*---------------*");
-                System.out.println("Cartas jogadas!");
-                System.out.println("*---------------*");
+                esperar(500);
+                System.out.println("\n*---------------*\nCartas jogadas!\n*---------------*");
 
                 jogadaValida = true;
             }
@@ -265,10 +280,21 @@ public abstract class Jogador {
             if(mao.isEmpty()){
                 mao.clear();
                 mao.addAll(maoOriginal);
+
+                esperar(500);
                 System.out.println("\nSua mão foi restaurada!");
             }
         }
         else{
+            esperar(500);
+            System.out.print("\nBot está pensando");
+            esperar(500);
+            System.out.print(".");
+            esperar(500);
+            System.out.print(".");
+            esperar(500);
+            System.out.print(". \n");
+        
             Random rng = new Random();
 
             while(!jogadaValida){
@@ -309,20 +335,29 @@ public abstract class Jogador {
                 }
                 
                 esperar(500);
-                System.out.println("\n*----------------------------------*");
-                System.out.println("Cartas do Bot jogadas: ");
+                System.out.println("\nCartas do Bot jogadas: ");
 
+                int i = cartasEmJogo.size();
                 for(Carta c : cartasEmJogo){
-                    esperar(500);
-                    System.out.println(c.getNome());
-                    System.out.print("TIPO: " + c.getTipo() + " | PODER: " + c.getPoder() + " | CUSTO: " + c.getCusto());
+                    esperar(700);
+                    System.out.print(c.getNome() + "\nTIPO: " + c.getTipo() + " | PODER: " + c.getPoder() + " | CUSTO: " + c.getCusto());
                     if(c instanceof Suporte){
                         System.out.print(" | EFEITO: " + c.getEfeito());
                     }
-                    System.out.println("\n");
-                }
 
-                System.out.println("*----------------------------------*");
+                    if(cartasEmJogo.size() == 1){
+                        System.out.print("");
+                    }
+
+                    if(i - 1 == 0){
+                        System.out.print("\n");
+                    }
+
+                    if(i - 1 != 0){
+                        System.out.println("\n");
+                    }
+                    i--;
+                }
 
                 jogadaValida = true;
                 cartasValidas.clear();
@@ -331,6 +366,7 @@ public abstract class Jogador {
             if(mao.isEmpty()){
                 mao.clear();
                 mao.addAll(maoOriginal);
+
                 esperar(500);
                 System.out.println("\nA mão do Bot foi restaurada!");
             }
@@ -375,24 +411,23 @@ public abstract class Jogador {
         this.cartasEmJogo.clear();
     }
 
-    private static void esperar(long ms){
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
     private void imprimeCartas(){
         for(int i = 0; i < mao.size(); i++){
-            System.out.println((i + 1) + " - " + mao.get(i).getNome());
-            System.out.print("TIPO: " + mao.get(i).getTipo() + " | PODER: " + mao.get(i).getPoder() + " | CUSTO: " + mao.get(i).getCusto());
-
+            esperar(700);
+            System.out.print((i + 1) + " - " + mao.get(i).getNome() + "\nTIPO: " + mao.get(i).getTipo() + " | PODER: " + mao.get(i).getPoder() + " | CUSTO: " + mao.get(i).getCusto());
             if(mao.get(i) instanceof Suporte){
                 System.out.print(" | EFEITO: " + mao.get(i).getEfeito());
             }
            
             System.out.println("\n");
         }   
+    }
+
+    private static void esperar(long ms){
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }

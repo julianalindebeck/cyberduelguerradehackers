@@ -26,9 +26,8 @@ public class App {
         List<Suporte> suportes = Leitor.listaDeSuportes();
 
         //realiza a leitura do modo de jogo
-        System.out.println("Escolha o modo de jogo:");
-        System.out.println("(1) Hacker vs Bot");
-        System.out.println("(2) Hacker vs Hacker");
+        esperar(500);
+        System.out.println("Escolha o modo de jogo:\n(1) Hacker vs Bot\n(2) Hacker vs Hacker");
         int modoDeJogo = lerInteiro(); //passa o valor lido para modoDeJogo
 
         while(modoDeJogo != 1 && modoDeJogo != 2){
@@ -40,8 +39,28 @@ public class App {
         Hacker hacker1 = criarHacker(1);
         escolhaDeCartas(hacker1, ataques, defesas, suportes);
 
+        //imprime mão do hacker 1
+        esperar(500);
+        System.out.println("\nMão de " + hacker1.getNome() + ": ");
+        int i = 1;
+        for(Carta c : hacker1.getMao()){
+            esperar(700);
+            System.out.print(i + " - " + c.getNome() + "\nTIPO: " + c.getTipo() + " | PODER: " + c.getPoder() + " | CUSTO: " + c.getCusto());
+            
+            if(c instanceof Suporte){
+                System.out.print(" | EFEITO: " + c.getEfeito());
+            }
+           
+            System.out.println("\n");
+
+            i++;
+        }
+
         Jogador jogador1 = hacker1;
         Jogador jogador2;
+
+        esperar(500);
+        System.out.println("*----------------------*\nHora do segundo jogador!\n*----------------------*");
 
         //verifica se jogo é contra bot ou outro hacker
         if(modoDeJogo == 1){
@@ -49,13 +68,23 @@ public class App {
             bot.selecionaCartas(leitura, ataques, defesas, suportes, true);
             jogador2 = bot;
 
-            System.out.println("\nHacker criado: " + bot.getNome() + "  | ID: " + bot.getId());
+            esperar(500);
+            System.out.println("\n* Hacker 2 criado: " + bot.getNome() + " | ID: " + bot.getId() + " *");
 
-            //imprimi mão do bot
+            //imprime mão do bot
+            esperar(500);
             System.out.println("\nMão do Bot:");
-            int i = 1;
+            i = 1;
             for(Carta c : jogador2.getMao()){
-                System.out.println(i + " - " + c.getNome() + "\n");
+                esperar(700);
+                System.out.print(i + " - " + c.getNome() + "\nTIPO: " + c.getTipo() + " | PODER: " + c.getPoder() + " | CUSTO: " + c.getCusto());
+                
+                if(c instanceof Suporte){
+                    System.out.print(" | EFEITO: " + c.getEfeito());
+                }
+           
+                System.out.println("\n");
+                
                 i++;
             }
 
@@ -67,6 +96,23 @@ public class App {
             escolhaDeCartas(hacker2, ataques, defesas, suportes);
             jogador2 = hacker2;
 
+            //imprime mão do hacker2
+            esperar(1000);
+            System.out.println("\nMão de " + hacker2.getNome() + ": ");
+            i = 1;
+            for(Carta c : hacker1.getMao()){
+                esperar(700);
+                System.out.print(i + " - " + c.getNome() + "\nTIPO: " + c.getTipo() + " | PODER: " + c.getPoder() + " | CUSTO: " + c.getCusto());
+                
+                if(c instanceof Suporte){
+                    System.out.print(" | EFEITO: " + c.getEfeito());
+                }
+           
+                System.out.println("\n");
+                
+                i++;
+            }
+
             Replay.registrar("\nO jogo será contra um hacker humano!\n" + jogador2.getNome() + " | ID: " + jogador2.getId());
         }
 
@@ -75,9 +121,8 @@ public class App {
 
         Replay.salvarEmArquivo("replay.txt");
 
-        System.out.println("\nDeseja ver o replay completo?");
-        System.out.println("(1) Sim");
-        System.out.println("(2) Não");
+        esperar(500);
+        System.out.println("\n* Deseja ver o replay completo? *\n(1) Sim\n(2) Não");
 
         int opcao = lerInteiro();
         while(opcao != 1 && opcao != 2){
@@ -86,26 +131,35 @@ public class App {
         }
 
         if (opcao == 1) {
-            System.out.println("\n*----- REPLAY -----*\n");
+            System.out.println("\n* Replay *\n");
             try (Scanner sc = new Scanner(new File("replay.txt"))){
                 while (sc.hasNextLine()) {
                     System.out.println(sc.nextLine());
-                    Thread.sleep(300);
+                    Thread.sleep(400);
                 }
             }
         }
 
-        System.out.println("\nObrigada por jogar!");
+        System.out.println("\n*----------------------*");
+        System.out.println("Obrigada por jogar!");
+        System.out.println("*----------------------*");
+
+        System.out.print("\n<");
+        esperar(500);
+        System.out.print("3 \n");
+
         Replay.limpar();
     }
 
     //método para criar os hackers
     public static Hacker criarHacker(int n){
-        System.out.println("\nHacker " + n);
+        System.out.println("\n* Hacker " + n + " *");
         
+        esperar(500);
         System.out.print("Escolha seu nome: ");
         String nome = leitura.nextLine();
         
+        esperar(500);
         System.out.print("Escolha seu ID: ");
         int id = lerInteiro();
         while(id <=0){
@@ -114,7 +168,8 @@ public class App {
         }
 
         Hacker hacker = new Hacker(nome, id);
-        System.out.println("\nHacker criado: " + hacker.getNome() + " | ID: " + hacker.getId());
+        esperar(500);
+        System.out.println("\n* Hacker criado: " + hacker.getNome() + " | ID: " + hacker.getId() + " *");
 
         Replay.registrar("Hacker: " + hacker.getNome() + " | ID: " + hacker.getId());
 
@@ -123,9 +178,8 @@ public class App {
 
     //método para decidir se a escolha de cartas é aleatória ou não
     public static void escolhaDeCartas(Jogador jogador, List<Ataque> atq, List<Defesa> def, List<Suporte> sup){
-        System.out.println("\n" + jogador.getNome() + " faça sua escolha de cartas:");
-        System.out.println("(1) Desejo cartas aleatórias");
-        System.out.println("(2) Desejo escolher minhas cartas");
+        esperar(500);
+        System.out.println("\n" + jogador.getNome() + " faça sua escolha de cartas:\n(1) Desejo cartas aleatórias\n(2) Desejo escolher minhas cartas");
         
         int desejo = lerInteiro();
         while(desejo != 1 && desejo != 2){
@@ -150,5 +204,13 @@ public class App {
         int valor = leitura.nextInt();
         leitura.nextLine();
         return valor;
+    }
+
+    private static void esperar(long ms){
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }

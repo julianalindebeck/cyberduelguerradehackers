@@ -19,9 +19,8 @@ public class Jogo {
     }
 
     public void iniciaJogo(){
-        System.out.println("\n*------------------*");
-        System.out.println("O jogo vai iniciar!");
-        System.out.println("*------------------*");
+        esperar(500);
+        System.out.println("*------------------*\nO jogo vai iniciar!\n*------------------*");
 
         Replay.registrar("\nMão de " + primeiroJogador.getNome() + ":");
         for(Carta c : primeiroJogador.getMao()){
@@ -40,8 +39,8 @@ public class Jogo {
             primeiroJogador.resetaTurno();
             segundoJogador.resetaTurno();
 
-            System.out.println("\nVez de: " + primeiroJogador.getNome());
-            System.out.println("Energia: " + primeiroJogador.getEnergia() + " | Vida: " + primeiroJogador.getVida());
+            esperar(500);
+            System.out.println("\nVez de: " + primeiroJogador.getNome() + "\nEnergia: " + primeiroJogador.getEnergia() + " | Vida: " + primeiroJogador.getVida());
 
             Replay.registrar("\nVez de: " + primeiroJogador.getNome());
             Replay.registrar("Energia: " + primeiroJogador.getEnergia() + " | Vida: " + primeiroJogador.getVida());
@@ -58,8 +57,8 @@ public class Jogo {
                 Replay.registrar(c.getNome());
             }
             
-            System.out.println("\nVez de: " + segundoJogador.getNome());
-            System.out.println("Energia: " + segundoJogador.getEnergia() + " | Vida: " + segundoJogador.getVida());
+            esperar(500);
+            System.out.println("\nVez de: " + segundoJogador.getNome() + "\nEnergia: " + segundoJogador.getEnergia() + " | Vida: " + segundoJogador.getVida());
 
             Replay.registrar("\nVez de: " + segundoJogador.getNome());
             Replay.registrar("Energia: " + segundoJogador.getEnergia() + " | Vida: " + segundoJogador.getVida());
@@ -91,20 +90,38 @@ public class Jogo {
 
     private static boolean verificaStatus(Jogador jogador1, Jogador jogador2){
         if(jogador1.getVida() <= 0){
-            System.out.println("\n" + jogador1.getNome() + " foi derrotado!");
-            System.out.println("\nVENCEDOR: " + jogador2.getNome());
+            esperar(500);
+            System.out.println("\n" + jogador1.getNome() + " foi derrotada(o)!\n");
 
-            Replay.registrar("\n" + jogador1.getNome() + " foi derrotado!");
+            esperar(500);
+            System.out.println("*-------------------------*\nVENCEDOR: " + jogador2.getNome() + "\n*-------------------------*");
+
+            Replay.registrar("\n" + jogador1.getNome() + " foi derrotada(o)!");
             Replay.registrar("\nVENCEDOR: " + jogador2.getNome());
 
             return true;
         }
         else if(jogador2.getVida() <= 0){
-            System.out.println("\n" + jogador2.getNome() + " foi derrotado!");
-            System.out.println("\nVENCEDOR: " + jogador1.getNome());
+            esperar(500);
+            System.out.println("\n" + jogador2.getNome() + " foi derrotada(o)!\n");
 
-            Replay.registrar("\n" + jogador2.getNome() + " foi derrotado!");
+            esperar(500);
+            System.out.println("*-------------------------*\nVENCEDOR: " + jogador1.getNome() + "\n*-------------------------*");
+
+            Replay.registrar("\n" + jogador2.getNome() + " foi derrotada(o)!");
             Replay.registrar("\nVENCEDOR: " + jogador1.getNome());
+
+            return true;
+        }
+        else if(jogador1.getVida() <= 0 && jogador2.getVida() <= 0){
+            esperar(500);
+            System.out.println("\nOs jogadores usaram seus últimos suspiros para se derrotarem!\n");
+
+            esperar(500);
+            System.out.println("*-------------------------*\nEMPATE!\n*-------------------------*");
+
+            Replay.registrar("\nOs jogadores usaram seus últimos suspiros para se derrotarem!");
+            Replay.registrar("\nEMPATE!");
 
             return true;
         }
@@ -113,9 +130,8 @@ public class Jogo {
 
     private static boolean verificaDesistencia(Jogador jogador, Jogador jogador2, Scanner leitura){
         if(!(jogador instanceof Bot)){
-            System.out.println("\nVocê deseja desistir?");
-            System.out.println("(1) Sim");
-            System.out.println("(2) Não");
+            esperar(500);
+            System.out.println("\nVocê deseja desistir?\n(1) Sim\n(2) Não");
             int escolha = leitura.nextInt();
 
             while(escolha != 1 && escolha != 2){
@@ -126,8 +142,11 @@ public class Jogo {
             }
 
             if(escolha == 1){
-                System.out.println("\n" + jogador.getNome() + " desistiu!");
-                System.out.println("\nVENCEDOR: " + jogador2.getNome());
+                esperar(500);
+                System.out.println("\n" + jogador.getNome() + " desistiu!\n");
+
+                esperar(500);
+                System.out.println("*-------------------------*\nVENCEDOR: " + jogador2.getNome() + "\n*-------------------------*");
 
                 Replay.registrar("\n" + jogador.getNome() + " desistiu!");
                 Replay.registrar("\nVENCEDOR: " + jogador2.getNome());
@@ -136,5 +155,13 @@ public class Jogo {
             }
         }
         return false;
+    }
+
+    private static void esperar(long ms){
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
