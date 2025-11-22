@@ -322,8 +322,6 @@ public abstract class Jogador {
                 }
 
                 if(custoTotal > energia){
-                    esperar(500);
-                    System.out.println("\nEnergia insuficiente para jogar essas cartas!");
                     continue;
                 }
 

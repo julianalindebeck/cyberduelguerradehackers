@@ -19,7 +19,22 @@ public class App {
         System.out.println("\n*--------------------------------------------------*");
         System.out.println("Seja bem-vinda(o) ao CYBER DUELS: GUERRA DE HACKERS!");
         System.out.println("*--------------------------------------------------*\n");
-
+        esperar(500);
+        System.out.println("* Modo de Jogar *");
+        esperar(500);
+        System.out.println("1 - Escolha o modo de jogo (contra hacker ou contra bot)");
+        esperar(500);
+        System.out.println("2 - Monte seu hacker e escolha suas cartas");
+        esperar(500);
+        System.out.println("3 - A cada turno, os jogadores escolhem cartas para jogar");
+        esperar(500);
+        System.out.println("4 - Após todos os jogadores escolherem suas cartas, é feito o cálculo de dano");
+        esperar(500);
+        System.out.println("Se nenhum jogador perder, o jogo continua com os turnos invertidos");
+        esperar(500);
+        System.out.println("Você pode desistir a qualquer momento");
+        esperar(500);
+        System.out.println("\nBom jogo!\n");
         //lê e cria as listas
         List<Ataque> ataques = Leitor.listaDeAtaques();
         List<Defesa> defesas = Leitor.listaDeDefesas();
@@ -88,7 +103,7 @@ public class App {
                 i++;
             }
 
-            Replay.registrar("\nO jogo será contra um Bot!\nBot | ID: 202565001");
+            Replay.registrar("O jogo será contra um Bot!\nBot | ID: 202565001");
         }
         else{
             //criação do hacker 2
@@ -113,7 +128,7 @@ public class App {
                 i++;
             }
 
-            Replay.registrar("\nO jogo será contra um hacker humano!\n" + jogador2.getNome() + " | ID: " + jogador2.getId());
+            Replay.registrar("O jogo será contra um hacker humano!\n" + jogador2.getNome() + " | ID: " + jogador2.getId());
         }
 
         Jogo jogo = new Jogo(jogador1, jogador2, leitura);
@@ -190,12 +205,12 @@ public class App {
         if (desejo == 1){
             jogador.selecionaCartas(leitura, atq, def, sup, true);
 
-            Replay.registrar(jogador.getNome() + " escolheu cartas aleatórias!");
+            Replay.registrar(jogador.getNome() + " escolheu cartas aleatórias!\n");
         }
         else{
             jogador.selecionaCartas(leitura, atq, def, sup, false);
 
-            Replay.registrar(jogador.getNome() + " escolheu suas próprias cartas!");
+            Replay.registrar(jogador.getNome() + " escolheu suas próprias cartas!\n");
         }
     }
 

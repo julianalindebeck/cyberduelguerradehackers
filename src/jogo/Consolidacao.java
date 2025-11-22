@@ -36,13 +36,13 @@ public class Consolidacao {
         }
 
         if(jogador1.cartasEmJogo.isEmpty()){
-            System.out.println("O jogador " + jogador1.getNome() + "não jogou nesse turno!");
-            Replay.registrar("O jogador " + jogador1.getNome() + "não jogou nesse turno!");
+            System.out.println("\n"+jogador1.getNome() + "não jogou nesse turno!");
+            Replay.registrar("\n"+jogador1.getNome() + "não jogou nesse turno!");
         }
 
         if(jogador2.cartasEmJogo.isEmpty()){
-            System.out.println("O jogador " + jogador2.getNome() + "não jogou nesse turno!");
-            Replay.registrar("O jogador " + jogador2.getNome() + "não jogou nesse turno!");
+            System.out.println("\n"+jogador2.getNome() + "não jogou nesse turno!");
+            Replay.registrar("\n"+jogador2.getNome() + "não jogou nesse turno!");
         }
 
         if(jogador1.ataque != 0 && jogador2.defesa != 0){
