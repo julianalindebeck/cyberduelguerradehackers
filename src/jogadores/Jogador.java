@@ -134,7 +134,7 @@ public abstract class Jogador {
         esperar(600);
         System.out.println("\nSelecione as cartas de defesa: ");
         for(int i = 0; i < defesas.size(); i++){
-            System.out.println((i + 1) + " - " + defesas.get(i).getNome() + " - Poder: " + defesas.get(i).getPoder() + " (Custo: " + defesas.get(i).getCusto() + ")");
+            System.out.println((i + 1) + " - " + defesas.get(i).getNome() + " - Poder: " + defesas.get(i).getPoder() + "  - Custo: " + defesas.get(i).getCusto());
         }
         System.out.print("\n");
 
@@ -304,8 +304,6 @@ public abstract class Jogador {
             System.out.print(".");
             esperar(500);
             System.out.print(". \n");
-        
-            Random rng = new Random();
 
             while(!jogadaValida){
 
@@ -317,29 +315,21 @@ public abstract class Jogador {
                     }
                 }
 
-                //faz escolha aleatória de quantas cartas o bot vai jogar
-                int qtd = rng.nextInt(cartasValidas.size()) + 1;
-
                 List<Carta> cartasEscolhidas = new ArrayList<>();
+                int energiaDisponivel = (int)energia;
+                Random random = new Random();
 
-                while(cartasEscolhidas.size() < qtd){
-                    Carta carta = cartasValidas.get(rng.nextInt(cartasValidas.size()));
-                    if(!cartasEscolhidas.contains(carta)){
+                while(!cartasValidas.isEmpty() && energiaDisponivel > 0){
+                    Carta carta = cartasValidas.get(random.nextInt(cartasValidas.size()));
+                    
+                    if(carta.getCusto() <= energiaDisponivel){
                         cartasEscolhidas.add(carta);
+                        energiaDisponivel -= carta.getCusto();
                     }
+                    cartasValidas.remove(carta);
                 }
 
-                //calcula custo total
-                int custoTotal = 0;
-                for(Carta c : cartasEscolhidas){
-                    custoTotal += c.getCusto();
-                }
-
-                if(custoTotal > energia){
-                    continue;
-                }
-
-                energia -= custoTotal;
+                energia -= (energia - energiaDisponivel);
 
                 for(Carta c : cartasEscolhidas){
                     cartasEmJogo.add(c);
