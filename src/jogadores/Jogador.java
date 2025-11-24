@@ -15,7 +15,7 @@ import replay.Replay;
 public abstract class Jogador {
     protected String nome;
     protected int id;
-    protected double vida = 100;
+    public double vida = 100;
     protected double energia = 10;
     protected List<Carta> mao = new ArrayList<>();
     protected List<Carta> maoOriginal = new ArrayList<>();
@@ -47,11 +47,6 @@ public abstract class Jogador {
 
     public void setVidaMais(double poder){
         this.vida += poder;
-
-        if(this.vida > 100){
-            this.vida = 100;
-        }
-
         this.arredondarVida();
     }
 
@@ -75,10 +70,6 @@ public abstract class Jogador {
             else{
                 this.vida -= resto;
             }
-        }
-
-        if (this.vida > 100){
-            this.vida = 100;
         }
     }
 

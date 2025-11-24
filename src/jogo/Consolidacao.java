@@ -19,20 +19,19 @@ public class Consolidacao {
 
         double dano = 0;
 
-        boolean temSuporte1 = false, temSuporte2 = false;
         List<Carta> suporte1 = new ArrayList<>();
         List<Carta> suporte2 = new ArrayList<>();
 
-        verificaTipos(jogador1, temSuporte1, suporte1);
-        verificaTipos(jogador2, temSuporte2, suporte2);
+        verificaTipos(jogador1, suporte1);
+        verificaTipos(jogador2, suporte2);
 
         //verifica se o jogador jogou uma carta de suporte e aplica seu efeito
-        for(int i = 0; i < suporte1.size(); i++){
-            verificaSuporte(temSuporte1, jogador1, jogador2, suporte1.get(i));
+        for(Carta c : suporte1){
+            verificaSuporte(jogador1, jogador2, c);
         }
 
-        for(int i = 0; i < suporte2.size(); i++){
-            verificaSuporte(temSuporte2, jogador2, jogador1, suporte2.get(i));
+        for(Carta c : suporte2){
+            verificaSuporte(jogador2, jogador1, c);
         }
 
         //verifica se algum jogador passou a vez
@@ -106,10 +105,16 @@ public class Consolidacao {
 
             Replay.registrar("\nNenhum dano foi causado nesse turno!");
         }
+        if(jogador1.vida > 100){
+            jogador1.vida = 100;
+        }
+        if(jogador2.vida > 100){
+            jogador2.vida = 100;
+        }
     }
 
     //verifica quais tipos de cartas os jogadores jogaram
-    public static void verificaTipos(Jogador jogador, boolean temSuporte, List<Carta> suporte){
+    public static void verificaTipos(Jogador jogador, List<Carta> suporte){
         for(Carta c : jogador.cartasEmJogo){
             if(c instanceof Ataque){
                 jogador.ataque += c.getPoder();
@@ -124,70 +129,61 @@ public class Consolidacao {
             }
 
             if(c instanceof Suporte){
-                temSuporte = true;
                 suporte.add(c);
             }
         }
     }
 
     //aplica efeitos da carta de suporte
-    public static void verificaSuporte(boolean temSuporte, Jogador jogador, Jogador jogador2, Carta suporte){
-        if(temSuporte){
-            esperar(800);
-            System.out.println("\n" + jogador.getNome() + " jogou uma carta de suporte!");
+    public static void verificaSuporte(Jogador jogador, Jogador jogador2, Carta suporte){
+        esperar(800);
+        System.out.println("\n" + jogador.getNome() + " jogou uma carta de suporte!");
 
-            if("Aumenta vida".equals(suporte.getEfeito())){
-                jogador.setVidaMais(suporte.getPoder());
+        if("Aumenta vida".equals(suporte.getEfeito())){
+            jogador.setVidaMais(suporte.getPoder());
+            esperar(800);
+            System.out.println("\n" + jogador.getNome() + " aumentou sua vida!\n" + "Vida: " + jogador.getVida());
+            return;
+        }
+
+        if("Aumenta ataque".equals(suporte.getEfeito())){
+            if(jogador.ataque == 0){
                 esperar(800);
-                System.out.println("\n" + jogador.getNome() + " aumentou sua vida!\n" + "Vida: " + jogador.getVida());
+                System.out.println("\nCarta de suporte de " + jogador.getNome() + " para aumentar seu ataque inválida! | Motivo: Nenhuma carta de ataque jogada.");
                 return;
             }
-
-            if("Aumenta ataque".equals(suporte.getEfeito())){
-                if(jogador.ataque == 0){
-                    esperar(800);
-                    System.out.println("\nCarta de suporte de " + jogador.getNome() + " para aumentar seu ataque inválida! | Motivo: Nenhuma carta de ataque jogada.");
-                    return;
-                }
-                else{
-                    double maior = 0;
-
-                    for(Carta c : jogador.cartasEmJogo){
-                        if("ATAQUE".equals(c.getTipo())){ //pega a maior carta somente dos ataques
-                            if(c.getPoder() > maior){
-                                maior = c.getPoder();
-                            }
-                        }
+        double maior = 0;
+        for(Carta c : jogador.cartasEmJogo){
+            if("ATAQUE".equals(c.getTipo())){ //pega a maior carta somente dos ataques
+                if(c.getPoder() > maior){
+                    maior = c.getPoder();
                     }
+            }
+        }
 
-                    jogador.ataque -= maior;
-                    jogador.ataque = jogador.ataque + (maior * (1 + suporte.getPoder()));
+        jogador.ataque -= maior;
+        jogador.ataque = jogador.ataque + (maior * (1 + suporte.getPoder()));
 
-                    esperar(800);
-                    System.out.println("\n" + jogador.getNome() + " aumentou seu ataque!\n" + "Ataque: " + jogador.ataque);
-                    return;
-                }
+        esperar(800);
+        System.out.println("\n" + jogador.getNome() + " aumentou seu ataque!\n" + "Ataque: " + jogador.ataque);
+        return;
+}
+
+        if("Diminui ataque".equals(suporte.getEfeito())){
+            if(jogador2.ataque == 0){
+                esperar(800);
+                System.out.println("\nCarta de suporte de " + jogador.getNome() + " para diminuir ataque inimigo inválida! | Motivo: O adversário não atacou.");
+                return;
+            }
+            double reducaoSuporte = jogador2.ataque * suporte.getPoder();
+            jogador2.ataque -= reducaoSuporte;
+
+            if(jogador2.ataque < 0){
+                jogador2.ataque = 0;
             }
 
-            if("Diminui ataque".equals(suporte.getEfeito())){
-                if(jogador2.ataque == 0){
-                    esperar(800);
-                    System.out.println("\nCarta de suporte de " + jogador.getNome() + " para diminuir ataque inimigo inválida! | Motivo: O adversário não atacou.");
-                    return;
-                }
-                else{
-                    double reducaoSuporte = jogador2.ataque * suporte.getPoder();
-                    jogador2.ataque -= reducaoSuporte;
-
-                    if(jogador2.ataque < 0){
-                        jogador2.ataque = 0;
-                    }
-
-                    esperar(800);
-                    System.out.println("\n" + jogador.getNome() + " enfraqueceu o adversário!");
-                    return;
-                }
-            }
+            esperar(800);
+            System.out.println("\n" + jogador.getNome() + " enfraqueceu o adversário!");
         }
     }
 
