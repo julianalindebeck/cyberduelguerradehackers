@@ -10,6 +10,7 @@ import cartas.Ataque;
 import cartas.Carta;
 import cartas.Defesa;
 import cartas.Suporte;
+import replay.Replay;
 
 public abstract class Jogador {
     protected String nome;
@@ -50,6 +51,8 @@ public abstract class Jogador {
         if(this.vida > 100){
             this.vida = 100;
         }
+
+        this.arredondarVida();
     }
 
     public void setVidaMenos(double poder){
@@ -58,6 +61,8 @@ public abstract class Jogador {
         if(this.vida < 0){
             this.vida = 0;
         }
+
+        this.arredondarVida();
     }
 
     public void arredondarVida(){
@@ -77,6 +82,7 @@ public abstract class Jogador {
         }
     }
 
+    //método para o jogador formar sua mão
     public void selecionaCartas(
         Scanner escolha,
         List<Ataque> ataques,
@@ -108,16 +114,19 @@ public abstract class Jogador {
             System.out.println((i + 1) + " - " + ataques.get(i).getNome() + " - Poder: " + ataques.get(i).getPoder() + " - Custo: " + ataques.get(i).getCusto());
         }
         System.out.print("\n");
+
         for(int i = 0; i < 4; i++){
             esperar(500);
             System.out.print("Escolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
+
             while(cartaEscolhida < 1 || cartaEscolhida > ataques.size()){
                 System.out.print("\nCarta inválida! Escolha novamente a carta " + (i+1) + ": " + "\n");
                 cartaEscolhida = escolha.nextInt();
             }
 
             cartasEscolhidas.add(cartaEscolhida);
+
             //verifica se a carta já foi escolhida
             boolean ehRepetido = verificaDuplicidade(cartaEscolhida, cartasEscolhidas);
             if(ehRepetido){
@@ -137,16 +146,19 @@ public abstract class Jogador {
             System.out.println((i + 1) + " - " + defesas.get(i).getNome() + " - Poder: " + defesas.get(i).getPoder() + " (Custo: " + defesas.get(i).getCusto() + ")");
         }
         System.out.print("\n");
+
         for(int i = 0; i < 4; i++){
             esperar(500);
             System.out.print("Escolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
+
             while(cartaEscolhida < 1 || cartaEscolhida > defesas.size()){
                 System.out.print("\nCarta inválida! Escolha novamente a carta " + (i+1) + ": " + "\n");
                 cartaEscolhida = escolha.nextInt();
             }
 
             cartasEscolhidas.add(cartaEscolhida);
+
             boolean ehRepetido = verificaDuplicidade(cartaEscolhida, cartasEscolhidas);
             if(ehRepetido){
                 i--;
@@ -165,16 +177,19 @@ public abstract class Jogador {
             System.out.println((i + 1) + " - " + suportes.get(i).getNome() + " - Poder: " + suportes.get(i).getPoder() + " (Custo: " + suportes.get(i).getCusto() + ")");
         }
         System.out.print("\n");
+
         for(int i = 0; i < 2; i++){
             esperar(500);
             System.out.print("Escolha a carta " + (i+1) + ": ");
             int cartaEscolhida = escolha.nextInt();
+
             while(cartaEscolhida < 1 || cartaEscolhida > suportes.size()){
                 System.out.print("\nCarta inválida! \nEscolha novamente a carta " + (i+1) + ": " + "\n");
                 cartaEscolhida = escolha.nextInt();
             }
 
             cartasEscolhidas.add(cartaEscolhida);
+
             boolean ehRepetido = verificaDuplicidade(cartaEscolhida, cartasEscolhidas);
             if(ehRepetido){
                 i--;
@@ -190,9 +205,11 @@ public abstract class Jogador {
 
     //escolha de cartas para o turno de cada jogador
     public void jogada(boolean ehBot){
+
         //verifica se o jogador pode jogar alguma carta
         if(!verificaJogada()){
             System.out.println("\nEnergia insuficiente! A vez de " + this.nome + " será pulada.");
+            Replay.registrar("\nEnergia insuficiente! A vez de " + this.nome + " foi pulada.");
             energia++;
             return;
         }
@@ -209,6 +226,7 @@ public abstract class Jogador {
                 passarVez = leitura.nextInt();
             }
 
+            //caso o jogador escolha pular sua vez
             if(passarVez == 1){
                 esperar(500);
                 System.out.println("\nVocê passou sua vez!");
@@ -240,7 +258,7 @@ public abstract class Jogador {
                     int escolhaCarta = leitura.nextInt();
 
                     while(escolhaCarta <= 0 || escolhaCarta > mao.size() || indices.contains(escolhaCarta)){
-                    esperar(500);
+                        esperar(500);
                         System.out.print("\nCarta inválida! Escolha novamente a carta " + (i + 1) + ": ");
                         escolhaCarta = leitura.nextInt();
                     }
@@ -264,7 +282,7 @@ public abstract class Jogador {
                 //diminui a energia do jogador
                 energia -= custoTotal;
 
-                //move cartas para cartasEmJogo e tira da mão
+                //move cartas para o vetor de cartas em jogo e tira da mão
                 for(int i : indices){
                     cartasEmJogo.add(mao.get(i-1));
                     mao.remove(i-1);
@@ -284,6 +302,7 @@ public abstract class Jogador {
                 esperar(500);
                 System.out.println("\nSua mão foi restaurada!");
             }
+
         }
         else{
             esperar(500);
@@ -298,16 +317,20 @@ public abstract class Jogador {
             Random rng = new Random();
 
             while(!jogadaValida){
+
+                //seleciona cartas com custo <= energia para otimizar escolhas
                 List<Carta> cartasValidas = new ArrayList<>();
                 for(Carta c : mao){
                     if(c.getCusto() <= energia){
                         cartasValidas.add(c);
                     }
                 }
+
                 //faz escolha aleatória de quantas cartas o bot vai jogar
                 int qtd = rng.nextInt(cartasValidas.size()) + 1;
 
                 List<Carta> cartasEscolhidas = new ArrayList<>();
+
                 while(cartasEscolhidas.size() < qtd){
                     Carta carta = cartasValidas.get(rng.nextInt(cartasValidas.size()));
                     if(!cartasEscolhidas.contains(carta)){
@@ -315,7 +338,7 @@ public abstract class Jogador {
                     }
                 }
 
-                // calcula custo total
+                //calcula custo total
                 int custoTotal = 0;
                 for(Carta c : cartasEscolhidas){
                     custoTotal += c.getCusto();
@@ -325,8 +348,8 @@ public abstract class Jogador {
                     continue;
                 }
 
-                // gasta energia e move cartas para cartasEmJogo
                 energia -= custoTotal;
+
                 for(Carta c : cartasEscolhidas){
                     cartasEmJogo.add(c);
                     mao.remove(c);
@@ -335,6 +358,7 @@ public abstract class Jogador {
                 esperar(500);
                 System.out.println("\nCartas do Bot jogadas: ");
 
+                //imprime cartas que o bot jogou
                 int i = cartasEmJogo.size();
                 for(Carta c : cartasEmJogo){
                     esperar(700);
@@ -354,6 +378,7 @@ public abstract class Jogador {
                     if(i - 1 != 0){
                         System.out.println("\n");
                     }
+
                     i--;
                 }
 
@@ -380,15 +405,18 @@ public abstract class Jogador {
     //verifica se o jogador já escolheu a carta
     public boolean verificaDuplicidade(int i, List<Integer> cartasEscolhidas){
         int contador = 0;
+
         for(int j : cartasEscolhidas){
             if(j == i){
                 contador++;
             }
         }
+
         if(contador > 1){
             System.out.println("\nCarta já escolhida! \nEscolha outra carta.\n ");
             return true;
         }
+        
         return false;
     }
 
@@ -422,9 +450,10 @@ public abstract class Jogador {
     }
 
     private static void esperar(long ms){
-        try {
+        try{
             Thread.sleep(ms);
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e){
             Thread.currentThread().interrupt();
         }
     }

@@ -16,25 +16,30 @@ import replay.Replay;
 public class App {
     static Scanner leitura = new Scanner(System.in);
     public static void main(String[] args) throws Exception{
+
+        //mensagem de boas vindas e regras
         System.out.println("\n*--------------------------------------------------*");
         System.out.println("Seja bem-vinda(o) ao CYBER DUELS: GUERRA DE HACKERS!");
         System.out.println("*--------------------------------------------------*\n");
-        esperar(500);
+        esperar(1000);
         System.out.println("* Modo de Jogar *");
-        esperar(500);
-        System.out.println("1 - Escolha o modo de jogo (contra hacker ou contra bot)");
-        esperar(500);
+        esperar(1000);
+        System.out.println("1 - Escolha o modo de jogo (Hacker vs Bot | Hacker vs Hacker)");
+        esperar(1000);
         System.out.println("2 - Monte seu hacker e escolha suas cartas");
-        esperar(500);
-        System.out.println("3 - A cada turno, os jogadores escolhem cartas para jogar");
-        esperar(500);
+        esperar(1000);
+        System.out.println("3 - Em cada turno, os jogadores escolhem cartas para jogar (ataque, defesa ou suporte)");
+        esperar(1000);
         System.out.println("4 - Após todos os jogadores escolherem suas cartas, é feito o cálculo de dano");
-        esperar(500);
-        System.out.println("Se nenhum jogador perder, o jogo continua com os turnos invertidos");
-        esperar(500);
-        System.out.println("Você pode desistir a qualquer momento");
-        esperar(500);
-        System.out.println("\nBom jogo!\n");
+        esperar(1000);
+        System.out.println("\n* Se atente a sua energia, pois toda carta tem custo energético *");
+        esperar(1000);
+        System.out.println("\n* Se nenhum jogador perder (vida zerada), o jogo continua com os turnos invertidos *");
+        esperar(1000);
+        System.out.println("\n* Você pode passar sua vez ou desistir *");
+        esperar(1000);
+        System.out.println("\n* Bom jogo! *\n");
+
         //lê e cria as listas
         List<Ataque> ataques = Leitor.listaDeAtaques();
         List<Defesa> defesas = Leitor.listaDeDefesas();
@@ -72,6 +77,8 @@ public class App {
         }
 
         Jogador jogador1 = hacker1;
+
+        //segundo jogador
         Jogador jogador2;
 
         esperar(500);
@@ -106,13 +113,12 @@ public class App {
             Replay.registrar("O jogo será contra um Bot!\nBot | ID: 202565001");
         }
         else{
-            //criação do hacker 2
             Hacker hacker2 = criarHacker(2);
             escolhaDeCartas(hacker2, ataques, defesas, suportes);
             jogador2 = hacker2;
 
-            //imprime mão do hacker2
-            esperar(1000);
+            //imprime mão do hacker 2
+            esperar(500);
             System.out.println("\nMão de " + hacker2.getNome() + ": ");
             i = 1;
             for(Carta c : hacker1.getMao()){
@@ -131,11 +137,14 @@ public class App {
             Replay.registrar("O jogo será contra um hacker humano!\n" + jogador2.getNome() + " | ID: " + jogador2.getId());
         }
 
+        //inicia jogo
         Jogo jogo = new Jogo(jogador1, jogador2, leitura);
         jogo.iniciaJogo();
 
+        //salva todos os dados do jogo no arquivo replay.txt
         Replay.salvarEmArquivo("replay.txt");
 
+        //replay
         esperar(500);
         System.out.println("\n* Deseja ver o replay completo? *\n(1) Sim\n(2) Não");
 
@@ -155,6 +164,7 @@ public class App {
             }
         }
 
+        //encerra jogo
         System.out.println("\n*----------------------*");
         System.out.println("Obrigada por jogar!");
         System.out.println("*----------------------*");
@@ -169,14 +179,15 @@ public class App {
     //método para criar os hackers
     public static Hacker criarHacker(int n){
         System.out.println("\n* Hacker " + n + " *");
-        
         esperar(500);
         System.out.print("Escolha seu nome: ");
+
         String nome = leitura.nextLine();
         
         esperar(500);
         System.out.print("Escolha seu ID: ");
         int id = lerInteiro();
+
         while(id <=0){
             System.out.print("\nID inválido! \nEscolha um número positivo para o ID: ");
             id = lerInteiro();
@@ -222,9 +233,10 @@ public class App {
     }
 
     private static void esperar(long ms){
-        try {
+        try{
             Thread.sleep(ms);
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e){
             Thread.currentThread().interrupt();
         }
     }

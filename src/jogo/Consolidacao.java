@@ -12,7 +12,6 @@ import replay.Replay;
 
 public class Consolidacao {
     public static void calcularDano(Jogador jogador1, Jogador jogador2){
-        
         esperar(700);
         System.out.println("\n*--------------------------------------------------------------------*\nTodos os jogadores escolheram suas cartas! Hora de calcular os danos!\n*--------------------------------------------------------------------*");
 
@@ -27,6 +26,7 @@ public class Consolidacao {
         verificaTipos(jogador1, temSuporte1, suporte1);
         verificaTipos(jogador2, temSuporte2, suporte2);
 
+        //verifica se o jogador jogou uma carta de suporte e aplica seu efeito
         for(int i = 0; i < suporte1.size(); i++){
             verificaSuporte(temSuporte1, jogador1, jogador2, suporte1.get(i));
         }
@@ -35,16 +35,11 @@ public class Consolidacao {
             verificaSuporte(temSuporte2, jogador2, jogador1, suporte2.get(i));
         }
 
-        if(jogador1.cartasEmJogo.isEmpty()){
-            System.out.println("\n"+jogador1.getNome() + "não jogou nesse turno!");
-            Replay.registrar("\n"+jogador1.getNome() + "não jogou nesse turno!");
-        }
+        //verifica se algum jogador passou a vez
+        passouAVez(jogador1);
+        passouAVez(jogador2);
 
-        if(jogador2.cartasEmJogo.isEmpty()){
-            System.out.println("\n"+jogador2.getNome() + "não jogou nesse turno!");
-            Replay.registrar("\n"+jogador2.getNome() + "não jogou nesse turno!");
-        }
-
+        //jogador 1 ataca e jogador 2 defende
         if(jogador1.ataque != 0 && jogador2.defesa != 0){
             dano = jogador1.ataque - jogador2.defesa;
 
@@ -62,6 +57,8 @@ public class Consolidacao {
                 Replay.registrar("\n" + jogador2.getNome() + " conseguiu se defender!");
             }
         }
+        
+        //jogador 2 ataca e jogador 1 defende
         if(jogador2.ataque != 0 && jogador1.defesa != 0){
             dano = jogador2.ataque - jogador1.defesa;
 
@@ -79,6 +76,8 @@ public class Consolidacao {
                 Replay.registrar("\n" + jogador1.getNome() + " conseguiu se defender!");
             }
         }
+        
+        //jogador 1 ataca e jogador 2 não defende
         if(jogador1.ataque !=0 && jogador2.defesa == 0){
             dano = jogador1.ataque;
             jogador2.setVidaMenos(dano);
@@ -88,6 +87,8 @@ public class Consolidacao {
 
             Replay.registrar("\n" + jogador2.getNome() + " recebeu " + dano + " de dano! | Vida: " + jogador2.getVida());
         }
+        
+        //jogador 2 ataca e jogador 1 não defende
         if(jogador2.ataque !=0 && jogador1.defesa == 0){
             dano = jogador2.ataque;
             jogador1.setVidaMenos(dano);
@@ -98,32 +99,16 @@ public class Consolidacao {
             Replay.registrar("\n" + jogador1.getNome() + " recebeu " + dano + " de dano! | Vida: " + jogador1.getVida());
         }
 
-        if(jogador1.ataque > 0 && jogador2.ataque > 0 && jogador1.defesa == 0 && jogador2.defesa == 0){
-            jogador1.setVidaMenos(jogador2.ataque);
-            jogador2.setVidaMenos(jogador1.ataque);
-
-            esperar(800);
-            System.out.println("\n" + jogador1.getNome() + " recebeu " + jogador2.ataque + " de dano! | Vida: " + jogador1.getVida());
-
-            Replay.registrar("\n" + jogador1.getNome() + " recebeu " + jogador2.ataque + " de dano! | Vida: " + jogador1.getVida());
-
-            esperar(800);
-            System.out.println("\n" + jogador2.getNome() + " recebeu " + jogador1.ataque + " de dano! | Vida: " + jogador2.getVida());
-
-            Replay.registrar("\n" + jogador2.getNome() + " recebeu " + jogador1.ataque + " de dano! | Vida: " + jogador2.getVida());
-        }
-
+        //jogadores se defendem mas não atacam
         if(jogador1.defesa !=0 && jogador2.defesa !=0 && jogador1.ataque == 0 && jogador2.ataque == 0){
             esperar(800);
             System.out.println("\nNenhum dano foi causado nesse turno!");
 
             Replay.registrar("\nNenhum dano foi causado nesse turno!");
         }
-
-        jogador1.arredondarVida();
-        jogador2.arredondarVida();
     }
 
+    //verifica quais tipos de cartas os jogadores jogaram
     public static void verificaTipos(Jogador jogador, boolean temSuporte, List<Carta> suporte){
         for(Carta c : jogador.cartasEmJogo){
             if(c instanceof Ataque){
@@ -145,45 +130,49 @@ public class Consolidacao {
         }
     }
 
+    //aplica efeitos da carta de suporte
     public static void verificaSuporte(boolean temSuporte, Jogador jogador, Jogador jogador2, Carta suporte){
         if(temSuporte){
             esperar(800);
             System.out.println("\n" + jogador.getNome() + " jogou uma carta de suporte!");
 
-            if("AUMENTA_VIDA".equals(suporte.getEfeito())){
+            if("Aumenta vida".equals(suporte.getEfeito())){
                 jogador.setVidaMais(suporte.getPoder());
                 esperar(800);
                 System.out.println("\n" + jogador.getNome() + " aumentou sua vida!\n" + "Vida: " + jogador.getVida());
                 return;
             }
-            if("AUMENTA_ATAQUE".equals(suporte.getEfeito())){
+
+            if("Aumenta ataque".equals(suporte.getEfeito())){
                 if(jogador.ataque == 0){
                     esperar(800);
-                    System.out.println("\nCarta de suporte inválida!");
+                    System.out.println("\nCarta de suporte de " + jogador.getNome() + " para aumentar seu ataque inválida! | Motivo: Nenhuma carta de ataque jogada.");
                     return;
                 }
                 else{
                     double maior = 0;
+
                     for(Carta c : jogador.cartasEmJogo){
-                        if("ATAQUE".equals(c.getTipo())){//pega a maior carta somente dos ataques
+                        if("ATAQUE".equals(c.getTipo())){ //pega a maior carta somente dos ataques
                             if(c.getPoder() > maior){
-                            maior = c.getPoder();
+                                maior = c.getPoder();
                             }
                         }
                     }
 
-                    double bonusSuporte = maior * suporte.getPoder();
-                    jogador.ataque += bonusSuporte;
+                    jogador.ataque -= maior;
+                    jogador.ataque = jogador.ataque + (maior * (1 + suporte.getPoder()));
 
                     esperar(800);
                     System.out.println("\n" + jogador.getNome() + " aumentou seu ataque!\n" + "Ataque: " + jogador.ataque);
                     return;
                 }
             }
-            else{
+
+            if("Diminui ataque".equals(suporte.getEfeito())){
                 if(jogador2.ataque == 0){
                     esperar(800);
-                    System.out.println("\nCarta de suporte inválida!");
+                    System.out.println("\nCarta de suporte de " + jogador.getNome() + " para diminuir ataque inimigo inválida! | Motivo: O adversário não atacou.");
                     return;
                 }
                 else{
@@ -191,7 +180,7 @@ public class Consolidacao {
                     jogador2.ataque -= reducaoSuporte;
 
                     if(jogador2.ataque < 0){
-                        jogador2.ataque=0;
+                        jogador2.ataque = 0;
                     }
 
                     esperar(800);
@@ -202,10 +191,19 @@ public class Consolidacao {
         }
     }
 
-    private static void esperar(long ms) {
-        try {
+    //método para verificar se algum jogador passou a vez
+    private static void passouAVez(Jogador jogador){
+        if(jogador.cartasEmJogo.isEmpty()){
+            System.out.println("\n"+jogador.getNome() + " não jogou nesse turno!");
+            Replay.registrar("\n"+jogador.getNome() + " não jogou nesse turno!");
+        }
+    }
+
+    private static void esperar(long ms){
+        try{
             Thread.sleep(ms);
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e){
             Thread.currentThread().interrupt();
         }
     }
