@@ -142,7 +142,7 @@ public class Consolidacao {
         if("Aumenta vida".equals(suporte.getEfeito())){
             jogador.setVidaMais(suporte.getPoder());
             esperar(800);
-            System.out.println("\n" + jogador.getNome() + " aumentou sua vida! | + Vida: " + jogador.getVida());
+            System.out.println("\n" + jogador.getNome() + " aumentou sua vida! | Vida: " + jogador.getVida());
             return;
         }
 
@@ -165,7 +165,7 @@ public class Consolidacao {
         jogador.ataque = jogador.ataque + (maior * (1 + suporte.getPoder()));
 
         esperar(800);
-        System.out.println("\n" + jogador.getNome() + " aumentou seu ataque! | + Ataque: " + jogador.ataque);
+        System.out.println("\n" + jogador.getNome() + " aumentou seu ataque! | Ataque: " + jogador.ataque);
         return;
 }
 
