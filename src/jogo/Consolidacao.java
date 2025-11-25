@@ -64,9 +64,9 @@ public class Consolidacao {
             if(dano > 0){
                 jogador1.setVidaMenos(dano);
                 esperar(800);
-                System.out.println("\n" + jogador1.getNome() + " recebeu " + dano + " de dano!\nVida: " + jogador1.getVida() + "\n");
+                System.out.println("\n" + jogador1.getNome() + " recebeu " + dano + " de dano! | Vida: " + jogador1.getVida());
 
-                Replay.registrar("\n" + jogador1.getNome() + " recebeu " + dano + " de dano!\nVida: " + jogador1.getVida());
+                Replay.registrar("\n" + jogador1.getNome() + " recebeu " + dano + " de dano! | Vida: " + jogador1.getVida());
             }
             else{
                 esperar(800);
@@ -142,7 +142,7 @@ public class Consolidacao {
         if("Aumenta vida".equals(suporte.getEfeito())){
             jogador.setVidaMais(suporte.getPoder());
             esperar(800);
-            System.out.println("\n" + jogador.getNome() + " aumentou sua vida!\n" + "Vida: " + jogador.getVida());
+            System.out.println("\n" + jogador.getNome() + " aumentou sua vida! | + Vida: " + jogador.getVida());
             return;
         }
 
@@ -157,7 +157,7 @@ public class Consolidacao {
             if("ATAQUE".equals(c.getTipo())){ //pega a maior carta somente dos ataques
                 if(c.getPoder() > maior){
                     maior = c.getPoder();
-                    }
+                }
             }
         }
 
@@ -165,7 +165,7 @@ public class Consolidacao {
         jogador.ataque = jogador.ataque + (maior * (1 + suporte.getPoder()));
 
         esperar(800);
-        System.out.println("\n" + jogador.getNome() + " aumentou seu ataque!\n" + "Ataque: " + jogador.ataque);
+        System.out.println("\n" + jogador.getNome() + " aumentou seu ataque! | + Ataque: " + jogador.ataque);
         return;
 }
 
